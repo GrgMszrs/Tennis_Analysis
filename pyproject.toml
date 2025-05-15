@@ -1,0 +1,26 @@
+[project]
+name = "tennis-era-analysis"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "GrgMszrs",email = "47218582+GrgMszrs@users.noreply.github.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb (>=1.2.2,<2.0.0)",
+    "pandas (>=2.2.3,<3.0.0)",
+    "numpy (>=2.2.5,<3.0.0)",
+    "matplotlib (>=3.10.3,<4.0.0)",
+    "seaborn (>=0.13.2,<0.14.0)",
+    "scikit-learn (>=1.6.1,<2.0.0)",
+    "fuzzywuzzy (>=0.18.0,<0.19.0)",
+    "requests (>=2.32.3,<3.0.0)",
+    "tqdm (>=4.67.1,<5.0.0)",
+    "python-levenshtein (>=0.27.1,<0.28.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
