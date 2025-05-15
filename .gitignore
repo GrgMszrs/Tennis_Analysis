@@ -3,6 +3,19 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Cursor Rules 
+.cursor
+
+# DuckDB
+*.duckdb
+*.duckdb.wal
+
+# Data files - specific to this project if needed
+data/atp_matches/
+data/atp_point_by_point/
+data/slam_point_by_point/
+# data/tennis.duckdb # If you want to ignore the duckdb file itself
+
 # C extensions
 *.so
 
@@ -129,15 +142,6 @@ cython_debug/
 # VSCode
 .vscode/
 
-# DuckDB
-*.duckdb
-*.duckdb.wal
-
-# Data files - specific to this project if needed
-data/atp_matches/
-data/atp_point_by_point/
-data/slam_point_by_point/
-# data/tennis.duckdb # If you want to ignore the duckdb file itself
 
 # OS generated files
 .DS_Store
