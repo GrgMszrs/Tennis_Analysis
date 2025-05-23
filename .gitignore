@@ -11,10 +11,11 @@ __pycache__/
 *.duckdb.wal
 
 # Data files - specific to this project if needed
-data/atp_matches/
-data/atp_point_by_point/
-data/slam_point_by_point/
+data/*
 # data/tennis.duckdb # If you want to ignore the duckdb file itself
+
+# Ruff
+.ruff_cache/
 
 # C extensions
 *.so
