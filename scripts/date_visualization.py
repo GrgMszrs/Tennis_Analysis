@@ -107,7 +107,7 @@ def create_date_visualizations(df):
     plt.tight_layout()
 
     # Save plot
-    output_dir = Path("data/output")
+    output_dir = Path("data/output/plots")
     output_dir.mkdir(parents=True, exist_ok=True)
     plot_file = output_dir / "tennis_date_analysis.png"
     plt.savefig(plot_file, dpi=300, bbox_inches="tight")
@@ -187,7 +187,7 @@ def create_date_analysis():
         analyze_temporal_patterns(df, yearly_counts, monthly_avg)
 
         print("\n✅ Date analysis completed successfully!")
-        print("📊 Visualization saved to data/output/tennis_date_analysis.png")
+        print("📊 Visualization saved to data/output/plots/tennis_date_analysis.png")
 
     except Exception as e:
         print(f"❌ Error in date analysis: {e}")

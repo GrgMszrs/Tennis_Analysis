@@ -45,7 +45,7 @@ ERA_DEFINITIONS = {"Classic": (2005, 2010), "Transition": (2011, 2015), "Modern"
 
 # Batch processing
 DEFAULT_BATCH_SIZE = 10000
-MATCHING_BATCH_SIZE = 1000
+MATCHING_BATCH_SIZE = 100  # Reduced for better progress tracking and responsiveness
 
 # Rally length categories
 RALLY_SHORT_MAX = 4
@@ -53,8 +53,7 @@ RALLY_MEDIUM_MAX = 8
 
 # Matching thresholds
 FUZZY_MATCH_THRESHOLD = 80
-ENHANCED_FUZZY_THRESHOLD = 75
-LLM_MATCH_THRESHOLD = 85
+EMBEDDING_MATCH_THRESHOLD = 85  # Convert cosine similarity (0-1) to percentage (0-100)
 
 # =============================================================================
 # COLUMN MAPPINGS
@@ -75,6 +74,7 @@ CORE_COLUMNS = [
     "match_num",
     "tourney_date_int",
     "era",
+    "year",
 ]
 
 # Winner to player mappings
@@ -156,3 +156,28 @@ SELECT *,
        (first_win_pct - AVG(first_win_pct) OVER (PARTITION BY season)) / STDDEV_SAMP(first_win_pct) OVER (PARTITION BY season) AS first_win_z,
        (bp_save_pct   - AVG(bp_save_pct)  OVER (PARTITION BY season)) / STDDEV_SAMP(bp_save_pct)  OVER (PARTITION BY season) AS bp_save_z
 FROM analytics.yearly_summary;"""
+
+# =============================================================================
+# EMBEDDING CONFIGURATION
+# =============================================================================
+
+# Embedding model configuration
+EMBEDDING_MODEL = "mxbai-embed-large:latest"  # Best accuracy/speed trade-off (~670MB)
+EMBEDDING_SIMILARITY_THRESHOLD = 0.85  # Cosine similarity threshold for name matching
+EMBEDDING_BATCH_SIZE = 50  # Names to embed in one batch request
+
+# Alternative embedding models (for reference)
+EMBEDDING_MODELS = {
+    "best_accuracy": "bge-m3:latest",  # ~1.2GB, multi-lingual, SOTA
+    "balanced": "mxbai-embed-large:latest",  # ~670MB, great accuracy/speed
+    "fastest": "nomic-embed-text:latest",  # ~274MB, fastest, English-focused
+}
+
+# Embedding Configuration
+EMBEDDING_CONFIG = {
+    "model": EMBEDDING_MODEL,
+    "base_url": "http://localhost:11434",
+    "similarity_threshold": EMBEDDING_SIMILARITY_THRESHOLD,
+    "batch_size": EMBEDDING_BATCH_SIZE,
+    "cache_size": 10000,  # Max unique names to cache
+}

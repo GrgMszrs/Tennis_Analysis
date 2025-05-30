@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from config.constants import CLEANED_DATA_DIR
+from config.constants import CLEANED_DATA_DIR, OUTPUT_DATA_DIR
 
 
 def load_player_match_data() -> pd.DataFrame:
@@ -23,18 +23,34 @@ def load_player_match_data() -> pd.DataFrame:
     """
     print("=== LOADING PLAYER-MATCH DATA ===")
 
-    data_file = CLEANED_DATA_DIR / "player_match_data.csv"
-    if not data_file.exists():
-        raise FileNotFoundError(f"Player-match data not found: {data_file}")
+    # Try enhanced version first (primary per file naming strategy)
+    enhanced_file = CLEANED_DATA_DIR / "atp_player_match_enhanced.csv"
+
+    data_file = None
+    dataset_type = None
+
+    if enhanced_file.exists():
+        data_file = enhanced_file
+        dataset_type = "enhanced"
+    else:
+        raise FileNotFoundError(f"Player-match data not found. Expected files:\n" f"  Primary: {enhanced_file}")
 
     df = pd.read_csv(data_file)
 
     # Convert date column
     df["tourney_date"] = pd.to_datetime(df["tourney_date"])
 
-    print(f"✅ Loaded player-match data: {len(df):,} rows")
+    print(f"✅ Loaded player-match data ({dataset_type}): {len(df):,} rows")
+    print(f"   File: {data_file.name}")
     print(f"   Date range: {df['tourney_date'].min()} to {df['tourney_date'].max()}")
     print(f"   Eras: {', '.join(df['era'].unique())}")
+
+    # Show enhanced features if available
+    if dataset_type == "enhanced":
+        z_score_cols = [col for col in df.columns if "_z_" in col]
+        ranking_cols = [col for col in df.columns if "historical" in col]
+        if z_score_cols or ranking_cols:
+            print(f"   Enhanced features: {len(z_score_cols)} z-score + {len(ranking_cols)} ranking columns")
 
     return df
 
@@ -319,8 +335,9 @@ def generate_era_analysis_report(df: pd.DataFrame) -> Dict[str, Any]:
     surface_analysis = compare_surface_performance(df)
     era_champions = identify_era_champions(df)
 
-    # Create visualizations
-    create_era_comparison_plots(df)
+    # Create visualizations with output directory per file naming strategy
+    plots_dir = OUTPUT_DATA_DIR / "plots"
+    create_era_comparison_plots(df, output_dir=plots_dir)
 
     # Compile report
     report = {
@@ -344,6 +361,7 @@ def generate_era_analysis_report(df: pd.DataFrame) -> Dict[str, Any]:
     print(f"✅ Trend analysis for {len(trend_analysis['trends'])} metrics")
     print(f"✅ Surface analysis across {len(surface_analysis['surface'].unique())} surfaces")
     print(f"✅ Era champions identified for {len(era_champions)} eras")
+    print(f"📊 Plots saved to: {plots_dir}")
 
     return report
 

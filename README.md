@@ -1,239 +1,131 @@
 # Tennis Era Analysis
 
-A comprehensive data pipeline for analyzing tennis performance across different eras (2005-2024) using clean, modular architecture.
+Tennis Era Analysis is a comprehensive data pipeline and analytical framework for analyzing tennis player performance across different eras of the game. The project integrates point-by-point data with match-level statistics to provide deep insights into how tennis has evolved over time.
 
-## 🎾 What This Does
+## Core Features
 
-This project processes **58,081 ATP matches** and **11,859 point-by-point records** to create analysis-ready datasets with era-focused derived metrics for cross-era tennis performance comparison.
+- **Data Standardization**: Clean and standardize ATP match and point-by-point datasets
+- **Tournament Normalization**: Standardize tournament names for improved matching accuracy
+- **Player-Match Transformation**: Convert match-level data to player-centric views
+- **High-Performance Matching**: Advanced fuzzy and embedding-based matching with persistent caching
+- **Era Analysis**: Statistical analysis of tennis evolution across different time periods
 
-## ✅ Current Status
+## Quick Start
 
-**PRODUCTION READY** - Clean, modular pipeline with comprehensive analysis capabilities:
+### Basic Usage
+```bash
+# Run complete pipeline with optimized caching
+python main.py
 
-- ✅ **Phase 1**: Data standardization (58K+ matches processed)
-- ✅ **Phase 2**: Player-match transformation with era metrics  
-- ✅ **Phase 3**: Flexible PBP matching strategies
-- ✅ **Phase 4**: Comprehensive era analysis and visualization
-- ✅ **Clean Architecture**: Modular, testable, maintainable code
+# Run with tournament normalization for better data quality
+python main.py --tournament-normalization
 
-## 🏗️ Project Structure
+# Run specific phases
+python main.py --phase 1  # Standardization
+python main.py --phase 2  # Transformation  
+python main.py --phase 3  # Matching (optimized)
+python main.py --phase 4  # Analysis
+
+# Performance optimization
+python main.py --precompute  # Precompute embeddings for maximum speed
+python main.py --demo       # Quick cache performance demo
+```
+
+### Cache Management
+```bash
+# Clear caches when needed
+python main.py --clear-cache all
+```
+
+## Performance Features
+
+The matching system includes advanced caching for dramatic performance improvements:
+
+- **Embedding Cache**: Persistent player name embeddings (10-50x faster)
+- **Result Cache**: Complete matching results cached (100-1000x faster on subsequent runs)
+- **Smart Invalidation**: Automatically detects data changes
+- **Preprocessing**: Batch operations and vectorized calculations
+
+## Project Structure
 
 ```
 Tennis_Era_Analysis/
-├── config/                    # Configuration and constants
-│   ├── __init__.py
-│   └── constants.py          # All project constants and settings
-├── data_pipeline/            # Data processing modules
-│   ├── __init__.py
-│   ├── standardization.py    # Phase 1: Data standardization
-│   ├── transformation.py     # Phase 2: Player-match transformation
-│   └── matching.py          # Phase 3: PBP matching strategies
-├── analysis/                 # Analysis and visualization
-│   ├── __init__.py
-│   └── era_analysis.py      # Era comparison and statistics
-├── scripts/                  # Standalone analysis tools
-│   ├── data_quality_analysis.py  # Data quality assessment
-│   ├── date_visualization.py     # Date pattern visualization
-│   └── README.md            # Scripts documentation
-├── utils/                   # Utility functions
-│   ├── __init__.py
-│   └── helpers.py          # Common helper functions
-├── tests/                   # Test files (to be added)
-├── data/                    # Data files (gitignored)
-│   ├── cleaned_refactored/  # Processed datasets
-│   └── output/             # Analysis outputs
-├── main.py                 # Main entry point
-├── pyproject.toml         # Poetry configuration
-└── .cursorrules          # Development guidelines
+├── main.py                 # Main pipeline entry point
+├── data_pipeline/          
+│   ├── caching.py          # High-performance caching system
+│   ├── matching.py         # Optimized matching strategies
+│   ├── standardization.py  # Data cleaning and standardization
+│   └── transformation.py   # Player-match transformations
+├── scripts/                # Analysis tools and demonstrations
+│   ├── date_visualization.py # Match Date Analysis 
+│   ├── investigate_data_overlap.py # Data overlap between APT and PBP data
+│   ├── data_quality_analysis.py      # Data quality assessment
+│   ├── joinability_heatmap_analysis.py # PBP-ATP matching analysis
+│   ├── optimize_fuzzy_matching.py    # Date window optimization
+│   └── tournament_normalization_demo.py # Tournament name standardization
+├── analysis/               # Era analysis modules
+├── config/                 # Configuration and constants
+└── data/                   # Raw and processed datasets
+    └── cache/              # Performance caches
 ```
 
-## 🚀 Quick Start
+## Problem Statement
 
-### Prerequisites
-- Python 3.8+
-- Poetry (for dependency management)
+Tennis performance metrics from different eras are not directly comparable due to:
+- Equipment evolution (racquet technology, string materials)
+- Training methodology advances
+- Court surface standardization changes
+- Tactical evolution of the game
 
-### Installation
-        ```bash
-# Clone the repository
-git clone <repository-url>
-cd Tennis_Era_Analysis
+## Solution
 
-# Install dependencies with Poetry
-        poetry install
+This pipeline processes 58,081 ATP matches (2005-2024) and 11,859 point-by-point records to create analysis-ready datasets with era-normalized performance metrics.
 
-# Activate virtual environment
-        poetry shell
-        ```
+### Key Components
+- **Era Classification**: Four distinct periods based on game evolution patterns
+- **Z-Score Normalization**: Removes temporal bias for fair cross-era comparisons
+- **Player-Match Transformation**: Converts match-centric to player-centric data structure
+- **Embedding Data Integration**: Links point-by-point records using vector similarity matching
+- **Historical Context**: ATP ranking integration for match importance assessment
 
-### Running the Pipeline
+## Tennis Eras
 
-        ```bash
-# Run the complete pipeline
-poetry run python main.py
+- **Classic** (2005-2010): Federer dominance period
+- **Transition** (2011-2015): Big 4 competitive balance
+- **Modern** (2016-2020): NextGen emergence
+- **Current** (2021-2024): New generation establishment
 
-# Run in test mode (faster)
-poetry run python main.py --test
+## Dataset Output
 
-# Run specific phases
-poetry run python main.py --phase 1  # Standardization only
-poetry run python main.py --phase 2  # Transformation only
-poetry run python main.py --phase 4  # Analysis only
+**Enhanced Dataset**: 116,162 player-match rows with 77 columns
+- 18 era-normalized features using z-score transformation
+- 99.3% ATP ranking coverage for historical context
+- 92.4% point-by-point integration via embedding matching (enhanced v2024.12)
 
-# Skip PBP matching (faster)
-poetry run python main.py --skip-matching
-
-# Get help
-poetry run python main.py --help
-```
-
-## 📊 Data Pipeline
-
-### Phase 1: Standardization
-- **Input**: Raw ATP match and PBP data
-- **Process**: Date conversion, numeric standardization, categorical mapping
-- **Output**: Standardized datasets with universal match IDs
-- **Module**: `data_pipeline.standardization`
-
-### Phase 2: Transformation  
-- **Input**: Standardized match data
-- **Process**: Era classification, derived metrics, player-match reshape
-- **Output**: Analysis-ready player-match format with era metrics
-- **Module**: `data_pipeline.transformation`
-
-### Phase 3: Matching (Optional)
-- **Input**: Standardized ATP and PBP data
-- **Process**: Fuzzy matching, enhanced matching, optional LLM matching
-- **Output**: Matched PBP records with confidence scores
-- **Module**: `data_pipeline.matching`
-
-### Phase 4: Analysis
-- **Input**: Player-match data
-- **Process**: Era statistics, trend analysis, champion identification
-- **Output**: Comprehensive analysis report with visualizations
-- **Module**: `analysis.era_analysis`
-
-## 🏆 Key Features
-
-### Era Definitions
-- **Classic Era** (2005-2010): Early modern tennis
-- **Transition Era** (2011-2015): Changing game dynamics  
-- **Modern Era** (2016-2020): Current playing style emergence
-- **Current Era** (2021-2024): Latest developments
-
-### Derived Metrics
-- **Service Analytics**: Ace rates, first serve effectiveness, service dominance
-- **Pressure Situations**: Break point save percentages
-- **Return Game**: Return win percentages and effectiveness
-- **Era Comparisons**: Cross-era statistical analysis
-
-### Matching Strategies
-- **Fuzzy Matching**: Basic string similarity
-- **Enhanced Fuzzy**: Multi-signal matching (names, dates, tournaments)
-- **LLM Matching**: AI-powered matching (optional, requires OpenAI API)
-
-## 📈 Analysis Capabilities
-
-### Statistical Analysis
-- Era-wise performance statistics
-- Trend analysis across time periods
-- Surface-specific performance comparison
-- Player ranking and champion identification
-
-### Visualizations
-- Era comparison box plots
-- Trend line analysis
-- Performance distribution charts
-- Surface-specific breakdowns
-
-## 🛠️ Development
-
-### Adding New Features
-1. Follow the modular structure
-2. Add constants to `config/constants.py`
-3. Use type hints and docstrings
-4. Update documentation
-5. Write tests
-
-### Code Style
-- Follow PEP 8 guidelines
-- Use Poetry for dependency management
-- Implement clean code principles
-- See `.cursorrules` for detailed guidelines
-
-### Testing
-        ```bash
-# Run tests (when implemented)
-poetry run pytest
-
-# Test individual modules
-poetry run python -m data_pipeline.standardization
-poetry run python -m analysis.era_analysis
-```
-
-## 📁 Data Files
-
-### Input Data (Required)
-- `data/cleaned_refactored/atp_matches_cleaned.csv` - ATP match data
-- `data/cleaned_refactored/atp_pbp_cleaned.csv` - Point-by-point data
-
-### Output Data (Generated)
-- `data/cleaned_refactored/atp_matches_standardized.csv` - Standardized matches
-- `data/cleaned_refactored/player_match_data.csv` - Analysis-ready dataset
-- `data/cleaned_refactored/player_match_data_*.csv` - Era-specific subsets
-
-## 🔧 Configuration
-
-All configuration is centralized in `config/constants.py`:
-- Era definitions and date ranges
-- File paths and data sources
-- Processing parameters and thresholds
-- Column mappings and transformations
-
-## 📚 Documentation
-
-- **README.md**: Project overview and usage
-- **Module docstrings**: Detailed function documentation
-- **.cursorrules**: Development guidelines and best practices
-- **Type hints**: Function signatures and return types
-
-## 🤝 Contributing
-
-1. Follow the established project structure
-2. Use Poetry for dependency management
-3. Adhere to clean code principles
-4. Update documentation with changes
-5. Write tests for new functionality
-
-## 📄 License
-
-[Add your license information here]
-
-## 🙏 Acknowledgments
-
-- ATP for providing match data
-- Jeff Sackmann for tennis datasets
-- Tennis analytics community for insights
-
----
-
-**Ready to analyze tennis eras!** 🎾📊 
-
-## 🔧 Analysis Scripts
-
-For supplementary analysis and data quality checks, use the standalone scripts:
+## Installation
 
 ```bash
-# Data quality assessment
-poetry run python scripts/data_quality_analysis.py
-
-# Date pattern visualization
-poetry run python scripts/date_visualization.py
+git clone <repository-url>
+cd Tennis_Era_Analysis
+poetry install
+poetry shell
 ```
 
-These scripts provide:
-- **Data Quality Analysis**: Null patterns, categorical validation, date conversion checks
-- **Date Visualization**: Temporal patterns, seasonal trends, coverage analysis
-- **Professional Reports**: Console output and high-quality plot exports
+## Embedding Setup (Optional)
 
-See `scripts/README.md` for detailed documentation. 
+For enhanced name matching accuracy:
+
+```bash
+# Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Download embedding model (670MB)
+ollama pull mxbai-embed-large:latest
+
+# Start Ollama service
+ollama serve
+```
+
+## Documentation
+
+- **[Technical Implementation Guide](docs/technical-implementation.md)**: Complete pipeline architecture and data schemas
