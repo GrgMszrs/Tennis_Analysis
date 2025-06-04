@@ -6,7 +6,7 @@ authors = [
     {name = "GrgMszrs",email = "47218582+GrgMszrs@users.noreply.github.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<4.0"
 dependencies = [
     "duckdb (>=1.2.2,<2.0.0)",
     "pandas (>=2.2.3,<3.0.0)",
@@ -17,10 +17,33 @@ dependencies = [
     "fuzzywuzzy (>=0.18.0,<0.19.0)",
     "requests (>=2.32.3,<3.0.0)",
     "tqdm (>=4.67.1,<5.0.0)",
-    "python-levenshtein (>=0.27.1,<0.28.0)"
+    "python-levenshtein (>=0.27.1,<0.28.0)",
+    # LangChain dependencies for LLM matching
+    "langchain (>=0.3.0,<0.4.0)",
+    "langchain-core (>=0.3.0,<0.4.0)",
+    "langchain-community (>=0.3.0,<0.4.0)",
+    "langchain-ollama (>=0.2.0,<0.3.0)",
+    "langchain-openai (>=0.2.0,<0.3.0)",
+    "langchain-google-vertexai (>=2.0.0,<3.0.0)",
+    "pydantic (>=2.10.0,<3.0.0)",
+    "tenacity (>=9.0.0,<10.0.0)"
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.9"
+pre-commit = "^4.2.0"
+
+[tool.ruff]
+line-length = 140
+extend-exclude = ["*.ipynb"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["F", "I", "E4", "E7", "E9"]
