@@ -70,15 +70,14 @@ class BaseMatcher(ABC):
                 rate = self.total_processed / elapsed if elapsed > 0 else 0
                 eta = (len(pbp_df) - self.total_processed) / rate if rate > 0 else 0
                 print(
-                    f"   Progress: {self.total_processed:,}/{len(pbp_df):,} records, "
-                    f"{len(matches):,} matches found, ETA: {eta/60:.1f}min"
+                    f"   Progress: {self.total_processed:,}/{len(pbp_df):,} records, {len(matches):,} matches found, ETA: {eta / 60:.1f}min"
                 )
 
         elapsed = time.time() - start_time
         self.matches_found = len(matches)
 
         print(f"   ✅ Found {self.matches_found:,} matches in {elapsed:.1f}s")
-        print(f"   Match rate: {self.matches_found/len(pbp_df)*100:.1f}%")
+        print(f"   Match rate: {self.matches_found / len(pbp_df) * 100:.1f}%")
 
         return pd.DataFrame(matches)
 
@@ -625,9 +624,9 @@ def run_matching_experiment(
     strategy_performance = {}
 
     for strategy_name, config in available_strategies.items():
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"STRATEGY: {strategy_name.upper()}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         try:
             threshold = config["threshold"]
@@ -732,9 +731,9 @@ def _create_matcher(strategy_name: str, config: dict, date_window_days: int = 30
 
 def _print_experiment_summary(strategy_performance: dict):
     """Print experiment summary with cache status."""
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print("MATCHING EXPERIMENT SUMMARY")
-    print(f"{'='*80}")
+    print(f"{'=' * 80}")
 
     # Sort strategies by match rate
     sorted_strategies = sorted(strategy_performance.items(), key=lambda x: x[1].get("match_rate", 0), reverse=True)

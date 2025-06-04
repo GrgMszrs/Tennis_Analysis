@@ -159,10 +159,10 @@ def analyze_player_presence_by_grouping(atp_matches: pd.DataFrame, pbp_data: pd.
     # Print results
     total = results["total_pbp"]
     print(f"📊 PBP Joinability Analysis (Total: {total:,} records)")
-    print(f"   Global player presence:     {results['global_matches']:,} ({results['global_matches']/total*100:.1f}%)")
-    print(f"   Date-specific presence:     {results['date_matches']:,} ({results['date_matches']/total*100:.1f}%)")
-    print(f"   Date+Round presence:        {results['date_round_matches']:,} ({results['date_round_matches']/total*100:.1f}%)")
-    print(f"   No ATP presence:            {results['no_matches']:,} ({results['no_matches']/total*100:.1f}%)")
+    print(f"   Global player presence:     {results['global_matches']:,} ({results['global_matches'] / total * 100:.1f}%)")
+    print(f"   Date-specific presence:     {results['date_matches']:,} ({results['date_matches'] / total * 100:.1f}%)")
+    print(f"   Date+Round presence:        {results['date_round_matches']:,} ({results['date_round_matches'] / total * 100:.1f}%)")
+    print(f"   No ATP presence:            {results['no_matches']:,} ({results['no_matches'] / total * 100:.1f}%)")
 
     return results
 
@@ -279,18 +279,18 @@ JOINABILITY SUMMARY
 Total PBP Records: {total_pbp:,}
 
 Player Presence Analysis:
-• Global Presence: {results['global_matches']:,} ({global_match_rate:.1f}%)
-• Date-Specific: {results['date_matches']:,} ({date_match_rate:.1f}%)  
-• Date+Round: {results['date_round_matches']:,} ({date_round_match_rate:.1f}%)
-• No ATP Presence: {results['no_matches']:,} ({no_match_rate:.1f}%)
+• Global Presence: {results["global_matches"]:,} ({global_match_rate:.1f}%)
+• Date-Specific: {results["date_matches"]:,} ({date_match_rate:.1f}%)  
+• Date+Round: {results["date_round_matches"]:,} ({date_round_match_rate:.1f}%)
+• No ATP Presence: {results["no_matches"]:,} ({no_match_rate:.1f}%)
 
 Data Overlap:
-• PBP Date Range: {heatmap_data[heatmap_data['PBP_Records'] > 0].index.min()} to {heatmap_data[heatmap_data['PBP_Records'] > 0].index.max()}
-• ATP Date Range: {heatmap_data[heatmap_data['ATP_Records'] > 0].index.min()} to {heatmap_data[heatmap_data['ATP_Records'] > 0].index.max()}
+• PBP Date Range: {heatmap_data[heatmap_data["PBP_Records"] > 0].index.min()} to {heatmap_data[heatmap_data["PBP_Records"] > 0].index.max()}
+• ATP Date Range: {heatmap_data[heatmap_data["ATP_Records"] > 0].index.min()} to {heatmap_data[heatmap_data["ATP_Records"] > 0].index.max()}
 • Overlap Months: {len(overlap_data):,}
 
-Best Joinability Rate: {heatmap_data['Joinability_Rate'].max():.1f}%
-Average Joinability: {heatmap_data[heatmap_data['PBP_Records'] > 0]['Joinability_Rate'].mean():.1f}%
+Best Joinability Rate: {heatmap_data["Joinability_Rate"].max():.1f}%
+Average Joinability: {heatmap_data[heatmap_data["PBP_Records"] > 0]["Joinability_Rate"].mean():.1f}%
 """
 
     ax4.text(
@@ -331,7 +331,7 @@ def analyze_tournament_mismatch_patterns(results: Dict):
 
     print("📊 Unmatched records by tournament (Top 10):")
     for i, (tournament, count) in enumerate(tournament_counts.head(10).items()):
-        print(f"   {i+1:2d}. {tournament[:50]:<50} ({count:,} records)")
+        print(f"   {i + 1:2d}. {tournament[:50]:<50} ({count:,} records)")
 
     # Analyze player presence patterns
     print("\n👥 Player presence patterns in unmatched records:")
@@ -341,9 +341,9 @@ def analyze_tournament_mismatch_patterns(results: Dict):
     p2_only = unmatched_df[~unmatched_df["p1_global"] & unmatched_df["p2_global"]]
 
     total_unmatched = len(unmatched_df)
-    print(f"   Both players missing:    {len(both_missing):,} ({len(both_missing)/total_unmatched*100:.1f}%)")
-    print(f"   Only player1 in ATP:     {len(p1_only):,} ({len(p1_only)/total_unmatched*100:.1f}%)")
-    print(f"   Only player2 in ATP:     {len(p2_only):,} ({len(p2_only)/total_unmatched*100:.1f}%)")
+    print(f"   Both players missing:    {len(both_missing):,} ({len(both_missing) / total_unmatched * 100:.1f}%)")
+    print(f"   Only player1 in ATP:     {len(p1_only):,} ({len(p1_only) / total_unmatched * 100:.1f}%)")
+    print(f"   Only player2 in ATP:     {len(p2_only):,} ({len(p2_only) / total_unmatched * 100:.1f}%)")
 
 
 def main():

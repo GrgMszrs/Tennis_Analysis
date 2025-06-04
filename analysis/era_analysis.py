@@ -11,6 +11,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+from analysis.age_curves import analyze_career_trajectories
+from analysis.yearly_trends import analyze_yearly_evolution
 from config.constants import CLEANED_DATA_DIR, OUTPUT_DATA_DIR
 
 
@@ -33,7 +35,7 @@ def load_player_match_data() -> pd.DataFrame:
         data_file = enhanced_file
         dataset_type = "enhanced"
     else:
-        raise FileNotFoundError(f"Player-match data not found. Expected files:\n" f"  Primary: {enhanced_file}")
+        raise FileNotFoundError(f"Player-match data not found. Expected files:\n  Primary: {enhanced_file}")
 
     df = pd.read_csv(data_file)
 
@@ -335,6 +337,12 @@ def generate_era_analysis_report(df: pd.DataFrame) -> Dict[str, Any]:
     surface_analysis = compare_surface_performance(df)
     era_champions = identify_era_champions(df)
 
+    # Run career age curve analysis
+    career_analysis = analyze_career_trajectories(df)
+
+    # Run yearly evolution analysis
+    yearly_analysis = analyze_yearly_evolution(df)
+
     # Create visualizations with output directory per file naming strategy
     plots_dir = OUTPUT_DATA_DIR / "plots"
     create_era_comparison_plots(df, output_dir=plots_dir)
@@ -352,6 +360,8 @@ def generate_era_analysis_report(df: pd.DataFrame) -> Dict[str, Any]:
         "trend_analysis": trend_analysis,
         "surface_analysis": surface_analysis,
         "era_champions": era_champions,
+        "career_analysis": career_analysis,
+        "yearly_analysis": yearly_analysis,
     }
 
     # Print summary
@@ -361,6 +371,10 @@ def generate_era_analysis_report(df: pd.DataFrame) -> Dict[str, Any]:
     print(f"✅ Trend analysis for {len(trend_analysis['trends'])} metrics")
     print(f"✅ Surface analysis across {len(surface_analysis['surface'].unique())} surfaces")
     print(f"✅ Era champions identified for {len(era_champions)} eras")
+    print(f"✅ Career age curve analysis for {career_analysis['career_data_summary']['total_players']} players")
+    print(
+        f"✅ Yearly evolution analysis: {yearly_analysis['summary']['years_analyzed']} years, {yearly_analysis['summary']['major_transitions']} transitions"
+    )
     print(f"📊 Plots saved to: {plots_dir}")
 
     return report

@@ -91,8 +91,7 @@ def test_fuzzy_date_windows(pbp_data: pd.DataFrame, atp_data: pd.DataFrame, max_
         )
 
         print(
-            f"   {window_days:2d} days: {total_matches:,} matches ({match_rate:.1f}%) - "
-            f"exact: {exact_matches:,}, fuzzy: {fuzzy_matches:,}"
+            f"   {window_days:2d} days: {total_matches:,} matches ({match_rate:.1f}%) - exact: {exact_matches:,}, fuzzy: {fuzzy_matches:,}"
         )
 
     return results
@@ -159,9 +158,9 @@ def recommend_optimal_window(results):
     optimal_window = df.iloc[max_efficiency_idx]["window_days"]
 
     print("📊 Performance Analysis:")
-    print(f"   Current 3-day window:  {df[df['window_days']==3]['match_rate'].iloc[0]:.1f}% match rate")
-    print(f"   7-day window:          {df[df['window_days']==7]['match_rate'].iloc[0]:.1f}% match rate")
-    print(f"   14-day window:         {df[df['window_days']==14]['match_rate'].iloc[0]:.1f}% match rate")
+    print(f"   Current 3-day window:  {df[df['window_days'] == 3]['match_rate'].iloc[0]:.1f}% match rate")
+    print(f"   7-day window:          {df[df['window_days'] == 7]['match_rate'].iloc[0]:.1f}% match rate")
+    print(f"   14-day window:         {df[df['window_days'] == 14]['match_rate'].iloc[0]:.1f}% match rate")
 
     print(f"\n🎯 Recommended optimal window: {optimal_window} days")
     print(f"   Match rate: {df.iloc[max_efficiency_idx]['match_rate']:.1f}%")
@@ -174,7 +173,7 @@ def recommend_optimal_window(results):
 
     print("\n📈 Improvement vs current 3-day window:")
     print(f"   Additional match rate: +{improvement:.1f} percentage points")
-    print(f"   Additional matches: +{improvement/100*11859:.0f} records")
+    print(f"   Additional matches: +{improvement / 100 * 11859:.0f} records")
 
     # Show diminishing returns
     print("\n📉 Diminishing Returns Analysis:")

@@ -9,6 +9,24 @@ Tennis Era Analysis is a comprehensive data pipeline and analytical framework fo
 - **Player-Match Transformation**: Convert match-level data to player-centric views
 - **High-Performance Matching**: Advanced fuzzy and embedding-based matching with persistent caching
 - **Era Analysis**: Statistical analysis of tennis evolution across different time periods
+- **Career Age Curves**: Mixed-effects modeling of player peak ages and career trajectories across eras
+- **Yearly Evolution Trends**: Granular year-by-year analysis with change point detection and phase identification
+- **Interactive UI**: Streamlit-based web interface for visual exploration and analysis
+
+## Interactive Web Interface 🎾
+
+Launch the interactive analysis dashboard:
+
+```bash
+# Start the web interface
+poetry run streamlit run ui/home.py
+```
+
+**Available Features:**
+- **📈 Age Curves Analysis** - Interactive peak age analysis and career trajectories
+- **🏟️ Era Analysis** - Comprehensive cross-era performance comparison with dynamic charts
+- **🎨 Tennis-Themed Design** - Custom styling with era/surface badges and color schemes
+
 
 ## Quick Start
 
@@ -51,6 +69,11 @@ The matching system includes advanced caching for dramatic performance improveme
 ```
 Tennis_Era_Analysis/
 ├── main.py                 # Main pipeline entry point
+├── ui/                     # Interactive web interface
+│   ├── home.py            # Streamlit application entry point
+│   ├── components/        # Reusable UI components and chart utilities
+│   ├── modules/           # Analysis page modules
+│   └── assets/            # CSS styling and themes
 ├── data_pipeline/          
 │   ├── caching.py          # High-performance caching system
 │   ├── matching.py         # Optimized matching strategies
@@ -64,6 +87,9 @@ Tennis_Era_Analysis/
 │   ├── optimize_fuzzy_matching.py    # Date window optimization
 │   └── tournament_normalization_demo.py # Tournament name standardization
 ├── analysis/               # Era analysis modules
+│   ├── era_analysis.py     # Cross-era performance analysis
+│   ├── age_curves.py       # Career trajectory and peak age modeling
+│   └── yearly_trends.py    # Year-by-year evolution with change point detection
 ├── config/                 # Configuration and constants
 └── data/                   # Raw and processed datasets
     └── cache/              # Performance caches

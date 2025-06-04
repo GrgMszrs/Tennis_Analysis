@@ -129,8 +129,8 @@ def analyze_temporal_patterns(df, yearly_counts, monthly_avg):
     print(f"  Total matches: {len(df):,}")
     print(f"  Date range: {df['tourney_date'].min().strftime('%Y-%m-%d')} to {df['tourney_date'].max().strftime('%Y-%m-%d')}")
     print(f"  Years covered: {df['year'].nunique()} years ({df['year'].min()}-{df['year'].max()})")
-    print(f"  Average matches per year: {len(df)/df['year'].nunique():.0f}")
-    print(f"  Average matches per month: {len(df)/(df['year'].nunique()*12):.0f}")
+    print(f"  Average matches per year: {len(df) / df['year'].nunique():.0f}")
+    print(f"  Average matches per month: {len(df) / (df['year'].nunique() * 12):.0f}")
 
     # Annual patterns
     print("\n📅 Annual Patterns:")
@@ -167,7 +167,7 @@ def analyze_temporal_patterns(df, yearly_counts, monthly_avg):
         if len(missing_list) <= 15:
             print(f"  Missing months: {missing_list}")
         else:
-            print(f"  Missing months: {missing_list[:10]} ... and {len(missing_list)-10} more")
+            print(f"  Missing months: {missing_list[:10]} ... and {len(missing_list) - 10} more")
 
 
 def create_date_analysis():

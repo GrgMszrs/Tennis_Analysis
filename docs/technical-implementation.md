@@ -9,6 +9,223 @@ Comprehensive technical documentation for the Tennis Era Analysis pipeline, cove
 - **Era Normalization**: Z-score standardization across temporal periods
 - **Embedding Matching**: Semantic integration of point-by-point records using vector embeddings
 - **Ranking Integration**: Historical ATP ranking context (2000-2024)
+- **Interactive UI**: Streamlit-based web interface with Plotly visualizations
+
+---
+
+## Interactive Web Interface Implementation
+
+### Architecture Overview
+The UI layer provides a modern web interface built on Streamlit with custom tennis-themed styling and interactive Plotly charts. The architecture separates presentation logic from data processing while maintaining high performance through strategic caching.
+
+**Technology Stack:**
+- **Frontend Framework**: Streamlit 1.45.1+ for rapid web app development
+- **Visualization**: Plotly for native interactive charts with hover, zoom, and pan
+- **Styling**: Custom CSS with tennis color schemes and responsive design
+- **Data Layer**: Cached pandas DataFrames with automatic invalidation
+- **Backend Integration**: Direct imports from existing analysis modules
+
+### Directory Structure
+```
+ui/
+├── home.py                 # Main application entry point with navigation
+├── assets/
+│   └── style.css          # Tennis-themed CSS styling
+├── components/
+│   ├── data_loader.py     # Cached data loading with @st.cache_data
+│   ├── age_analysis.py    # Career trajectory analysis components
+│   ├── era_analysis.py    # Cross-era comparison components
+│   └── chart_utils.py     # Plotly chart utilities and themes
+└── modules/
+    ├── age_curves.py      # Age analysis page implementation
+    └── era_analysis.py    # Era comparison page implementation
+```
+
+### Performance Optimizations
+
+**Data Caching Strategy:**
+- `@st.cache_data(ttl=3600)` for dataset loading (1-hour TTL)
+- `@st.cache_data(ttl=1800)` for analysis computations (30-minute TTL)
+- Automatic cache invalidation on data changes
+- Memory-efficient DataFrame operations
+
+**Chart Rendering:**
+- Native Plotly integration with `st.plotly_chart()`
+- Streamlit theme compatibility for consistent styling
+- Unique chart keys to prevent rendering conflicts
+- Optimized color schemes for tennis data visualization
+
+### UI Components Architecture
+
+#### Data Loading Layer (`components/data_loader.py`)
+```python
+@st.cache_data(ttl=3600, show_spinner=False)
+def get_player_match_data() -> pd.DataFrame:
+    """Load enhanced player-match dataset with caching."""
+    return load_player_match_data()
+```
+
+**Features:**
+- Transparent caching with configurable TTL
+- Background loading indicators
+- Error handling with user-friendly messages
+- Dataset summary statistics for overview displays
+
+#### Chart Utilities (`components/chart_utils.py`)
+**Tennis-Themed Visualization:**
+- Consistent color schemes across all charts
+- Era-specific colors: Classic (Brown), Transition (Tomato), Modern (Royal Blue), Current (Tennis Green)
+- Surface-specific colors: Hard (Sea Green), Clay (Saddle Brown), Grass (Forest Green), Carpet (Purple)
+- Interactive features: hover details, zoom, pan, legend filtering
+
+**Core Functions:**
+```python
+def create_plotly_chart(fig, title=None, caption=None, chart_key=None):
+    """Display Plotly figure with tennis theming and unique keys."""
+    
+def create_plotly_box_plot(data, x_col, y_col, ...):
+    """Tennis-themed box plots with sample size annotations."""
+    
+def create_plotly_heatmap(data, x_col, y_col, z_col, ...):
+    """Interactive heatmaps with tennis color scales."""
+```
+
+#### Analysis Components
+**Age Analysis** (`components/age_analysis.py`):
+- Peak age calculation using ATP rankings
+- Career span analysis with filtering
+- Era-based statistical summaries
+- Interactive exploration with player filtering
+
+**Era Analysis** (`components/era_analysis.py`):
+- Cross-era performance comparison
+- Trend analysis with statistical significance
+- Surface-specific performance heatmaps
+- Champion identification by era
+
+### Page Implementation
+
+#### Home Page (`home.py`)
+**Navigation System:**
+- Sidebar-based page selection
+- Dynamic page routing with error handling
+- Live dataset statistics display
+- Custom era/surface badge rendering
+
+**Key Features:**
+- Real-time data summary with performance metrics
+- Quick navigation to analysis pages
+- Mobile-responsive design with CSS Grid
+- Error-resistant data loading with graceful fallbacks
+
+#### Age Curves Analysis (`modules/age_curves.py`)
+**Implementation Details:**
+- Interactive peak age analysis across tennis eras
+- Plotly box plots with sample size annotations
+- Player-level filtering and exploration
+- Statistical summary tables with formatting
+
+**Core Functionality:**
+```python
+def create_peak_age_by_era_plot(peaks_df: pd.DataFrame):
+    """Create interactive box plot for peak ages by era."""
+    fig = create_plotly_box_plot(...)
+    create_plotly_chart(fig, chart_key="peak_age_by_era_boxplot")
+```
+
+#### Era Analysis (`modules/era_analysis.py`)
+**Tabbed Interface Design:**
+- Overview: Era statistics comparison
+- Trends: Performance evolution with trend lines
+- Surface Analysis: Interactive heatmaps by surface
+- Champions: Top performers identification
+
+**Dynamic Visualization:**
+- Metric selection for trend analysis
+- Real-time chart updates based on user selection
+- Error handling for missing data combinations
+- Performance optimization for large datasets
+
+### Styling and Design System
+
+#### CSS Architecture (`assets/style.css`)
+**Design Principles:**
+- Tennis-themed color palette with CSS custom properties
+- Mobile-first responsive design
+- Consistent component styling across pages
+- Performance-optimized animations and transitions
+
+**Key Style Components:**
+```css
+:root {
+    --tennis-green: #228B22;
+    --court-blue: #0066CC;
+    --court-clay: #D2691E;
+    /* ... */
+}
+
+.tennis-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid var(--tennis-green);
+}
+```
+
+#### Badge System
+Custom HTML badges for eras and surfaces with gradient backgrounds:
+- Era badges: Classic, Transition, Modern, Current
+- Surface badges: Hard, Clay, Grass, Carpet
+- Consistent styling across components
+- Accessibility-compliant color contrasts
+
+### Integration with Backend Systems
+
+#### Data Pipeline Integration
+- Direct imports from `analysis/` modules
+- Seamless access to processed datasets
+- Real-time error propagation from backend
+- Consistent data schema across UI and pipeline
+
+#### Cache Management
+- UI-level caching independent of pipeline caches
+- Manual cache clearing capabilities
+- Automatic invalidation on data updates
+- Memory usage monitoring and optimization
+
+### Error Handling and User Experience
+
+#### Graceful Degradation
+- Comprehensive error catching with user-friendly messages
+- Fallback data loading strategies
+- Progress indicators for long-running operations
+- Informative error messages with resolution suggestions
+
+#### Performance Monitoring
+- Real-time loading indicators
+- Cache hit/miss tracking
+- Memory usage optimization
+- Responsive design for various screen sizes
+
+### Development and Maintenance
+
+#### Code Organization
+- Clear separation of concerns (data, presentation, styling)
+- Reusable component architecture
+- Consistent naming conventions
+- Comprehensive documentation and comments
+
+#### Testing Strategy
+- Component-level testing for data loading
+- Visual regression testing for chart rendering
+- Performance benchmarking for cache efficiency
+- Cross-browser compatibility validation
+
+#### Future Extensibility
+- Modular component design for easy feature addition
+- Plugin architecture for new analysis types
+- Theming system for easy visual customization
+- API-ready structure for external integrations
 
 ---
 
@@ -53,8 +270,51 @@ Comprehensive technical documentation for the Tennis Era Analysis pipeline, cove
 
 ### Phase 4: Analysis
 **Input**: Enhanced player-match dataset (`atp_player_match_enhanced.csv`)
-**Process**: Cross-era statistical analysis and visualization generation
+**Process**: Cross-era statistical analysis, career trajectory modeling, and visualization generation
 **Output**: Research-ready analysis reports in `data/output/`
+
+**Analysis Components**:
+1. **Era Performance Analysis**: Statistical summaries and trend analysis across tennis eras
+2. **Surface Performance Comparison**: Era-specific analysis by court surface type  
+3. **Era Champions Identification**: Top performers in each era based on win rates and performance metrics
+4. **Career Age Curve Analysis**: Mixed-effects modeling of player career trajectories and peak age evolution
+5. **Yearly Evolution Analysis**: Granular year-by-year trend analysis with change point detection
+
+**Career Age Curve Analysis (New v2024.12)**:
+- **Peak Age Detection**: Uses ATP ranking data to identify career peaks, accounting for pre-2005 career starts
+- **Era Evolution Analysis**: Statistical testing for peak age shifts across tennis eras (Classic → Current)
+- **Performance Curves**: Polynomial regression models for age-performance relationships by era and surface
+- **Mixed-Effects Approach**: Controls for individual player effects, era context, and surface specialization
+- **Ranking-Based Validation**: Leverages historical ATP rankings for objective peak identification
+- **Output**: Statistical plots in `data/output/plots/age_curves/` with peak age evolution and performance trajectories
+
+**Yearly Evolution Analysis (New v2024.12)**:
+- **Granular Trends**: Year-by-year analysis (2005-2024) revealing gradual evolution vs discrete era changes
+- **Change Point Detection**: Statistical identification of significant trend shifts using piecewise linear regression
+- **Game Evolution Phases**: Data-driven identification of distinct periods based on multiple metric transitions
+- **Trend Classification**: Linear regression analysis with R² values and significance testing for each metric
+- **Recent vs Historical**: Comparison of recent trends (last 5 years) vs overall 20-year patterns
+- **Multiple Transitions Detected**: 2009, 2017, and 2020 identified as major game evolution transition points
+- **Output**: Detailed yearly plots in `data/output/plots/yearly_trends/` with trend lines and change points
+
+**Key Findings (v2024.12)**:
+- **Strong Service Evolution**: First serve percentage shows strongest trend (R²=0.665, increasing)
+- **Service Dominance Rising**: Clear upward trend in service dominance (R²=0.513)
+- **Return Game Declining**: Return win percentage decreasing over time (R²=0.498)
+- **Age Increasing**: Player ages trending upward (R²=0.466), contrasting with peak age decline
+- **Major Transitions**: 2009 (multiple metrics), 2017 (service metrics), 2020 (comprehensive changes)
+
+**Research Findings (v2024.12)**:
+- **Significant Peak Age Decline**: Statistical analysis reveals peak age decreasing at -0.26 years per era (p<0.001)
+- **Era Effect**: Clear differences in peak age distributions across Classic (highest) → Current (lowest) eras
+- **Sample Robustness**: Analysis based on 577 players with ≥20 matches for statistical reliability
+- **Ranking Validation**: Uses ATP ranking peaks rather than performance metrics for objective career peak identification
+
+**Key Variables Used**:
+- Primary: `age`, `player_id`, `era`, `surface`, ATP rankings (`historical_rank`, `rank`)
+- Performance metrics: Year+surface z-scores (`*_z_year_surface`) for era/surface-controlled analysis
+- Minimum threshold: 20+ matches per player for stable curve estimates
+- Age focus: 18-38 years (prime career window)
 
 ---
 
