@@ -1,0 +1,243 @@
+/* Tennis Era Analysis - Custom Styling */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Root variables for consistent theming */
+:root {
+    --tennis-green: #228B22;
+    --tennis-green-light: #32CD32;
+    --tennis-green-dark: #006400;
+    --court-blue: #0066CC;
+    --court-clay: #D2691E;
+    --background-light: #FAFAFA;
+    --background-dark: #1E1E1E;
+    --text-primary: #2C3E50;
+    --text-secondary: #7F8C8D;
+    --accent-yellow: #F1C40F;
+    --accent-orange: #E74C3C;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
+/* Global styling */
+.main .block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-width: 1200px;
+}
+
+/* Custom fonts */
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header styling */
+h1, h2, h3 {
+    color: var(--tennis-green-dark);
+    font-weight: 600;
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    background: linear-gradient(180deg, var(--tennis-green) 0%, var(--tennis-green-dark) 100%);
+}
+
+.css-1d391kg .css-17eq0hr {
+    color: white;
+}
+
+/* Metric cards styling */
+div[data-testid="metric-container"] {
+    background: white;
+    border: 1px solid #E8E8E8;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: 0 2px 4px var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+div[data-testid="metric-container"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--card-shadow);
+}
+
+/* Success/info/warning styling */
+.stSuccess {
+    background: linear-gradient(90deg, var(--tennis-green-light), var(--tennis-green));
+    color: white;
+    border-radius: var(--border-radius);
+    border: none;
+}
+
+.stInfo {
+    background: linear-gradient(90deg, var(--court-blue), #004499);
+    color: white;
+    border-radius: var(--border-radius);
+    border: none;
+}
+
+/* Button styling */
+.stButton > button {
+    background: linear-gradient(90deg, var(--tennis-green), var(--tennis-green-dark));
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    background: linear-gradient(90deg, var(--tennis-green-dark), var(--tennis-green));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(34, 139, 34, 0.3);
+}
+
+/* Selectbox styling */
+.stSelectbox > div > div {
+    background: white;
+    border: 2px solid var(--tennis-green-light);
+    border-radius: var(--border-radius);
+}
+
+/* Progress bar */
+.stProgress > div > div {
+    background: linear-gradient(90deg, var(--tennis-green), var(--tennis-green-light));
+}
+
+/* Dataframe styling */
+.dataframe {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--card-shadow);
+}
+
+/* Chart container */
+.chart-container {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px var(--card-shadow);
+    margin: 1rem 0;
+}
+
+/* Era badge styling */
+.era-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0.25rem;
+}
+
+.era-classic {
+    background: linear-gradient(90deg, #8B4513, #A0522D);
+    color: white;
+}
+
+.era-transition {
+    background: linear-gradient(90deg, #FF6347, #FF7F50);
+    color: white;
+}
+
+.era-modern {
+    background: linear-gradient(90deg, #4169E1, #6495ED);
+    color: white;
+}
+
+.era-current {
+    background: linear-gradient(90deg, var(--tennis-green), var(--tennis-green-light));
+    color: white;
+}
+
+/* Surface badge styling */
+.surface-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0.25rem;
+}
+
+.surface-hard {
+    background: linear-gradient(90deg, #2E8B57, #3CB371);
+    color: white;
+}
+
+.surface-clay {
+    background: linear-gradient(90deg, var(--court-clay), #CD853F);
+    color: white;
+}
+
+.surface-grass {
+    background: linear-gradient(90deg, #228B22, #32CD32);
+    color: white;
+}
+
+.surface-carpet {
+    background: linear-gradient(90deg, #800080, #9370DB);
+    color: white;
+}
+
+/* Loading spinner */
+.stSpinner > div {
+    border-top-color: var(--tennis-green) !important;
+}
+
+/* Custom classes for layout */
+.tennis-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px var(--card-shadow);
+    margin: 1rem 0;
+    border-left: 4px solid var(--tennis-green);
+}
+
+.highlight-box {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 1px solid var(--tennis-green-light);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main .block-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .stat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation utilities */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-10px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+} 

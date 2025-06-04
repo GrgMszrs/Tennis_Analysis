@@ -1,0 +1,69 @@
+"""
+UI Components for Tennis Era Analysis
+Reusable components for data loading, filtering, and visualization.
+Plotly-based interactive chart utilities for native Streamlit rendering.
+"""
+
+from .age_analysis import (
+    create_peak_age_by_era_plot,
+    get_career_data,
+    get_peak_age_summary,
+    get_ranking_peaks,
+)
+from .chart_utils import (
+    ERA_COLORS,
+    SURFACE_COLORS,
+    TENNIS_COLOR_SCALE,
+    # Color schemes
+    TENNIS_COLORS,
+    create_plotly_box_plot,
+    # Plotly chart utilities
+    create_plotly_chart,
+    create_plotly_heatmap,
+    create_plotly_line_plot,
+    create_plotly_subplot_grid,
+    get_plotly_tennis_theme,
+)
+from .data_loader import get_data_summary
+from .era_analysis import (
+    display_era_champions,
+    display_era_overview,
+    display_era_trends,
+    display_surface_analysis,
+    get_era_champions,
+    get_era_data,
+    get_era_statistics,
+    get_era_trends,
+    get_surface_comparison,
+)
+
+__all__ = [
+    # Age analysis
+    "get_career_data",
+    "get_ranking_peaks",
+    "create_peak_age_by_era_plot",
+    "get_peak_age_summary",
+    # Chart utilities
+    "ERA_COLORS",
+    "SURFACE_COLORS",
+    "TENNIS_COLOR_SCALE",
+    "TENNIS_COLORS",
+    "create_plotly_box_plot",
+    "create_plotly_chart",
+    "create_plotly_heatmap",
+    "create_plotly_line_plot",
+    "create_plotly_subplot_grid",
+    "get_plotly_tennis_theme",
+    # Data loader
+    "get_data_summary",
+    # Era analysis
+    "display_era_champions",
+    "display_era_overview",
+    "display_era_trends",
+    "display_surface_analysis",
+    "get_era_champions",
+    "get_era_data",
+    "get_era_statistics",
+    "get_era_trends",
+    "get_surface_comparison",
+]

@@ -17,6 +17,9 @@ data/*
 # Ruff
 .ruff_cache/
 
+# Streamlit
+.streamlit/
+
 # C extensions
 *.so
 
