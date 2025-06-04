@@ -191,6 +191,16 @@ class BaseMatcher(ABC):
             return pd.DataFrame()  # Return empty on any error
 
 
+    def _create_player_key(self, player1: str, player2: str) -> frozenset:
+        """Create order-invariant key from two player names."""
+        p1 = str(player1).strip().lower() if player1 and str(player1) != "nan" else ""
+        p2 = str(player2).strip().lower() if player2 and str(player2) != "nan" else ""
+
+        if p1 and p2:
+            return frozenset([p1, p2])
+        return frozenset()
+
+
 class FuzzyMatcher(BaseMatcher):
     """Basic fuzzy string matching strategy with order-invariant matching."""
 
@@ -202,17 +212,6 @@ class FuzzyMatcher(BaseMatcher):
         use_tournament_normalization: bool = False,
     ):
         super().__init__(threshold, batch_size, date_window_days, use_tournament_normalization)
-
-    def _create_player_key(self, player1: str, player2: str) -> frozenset:
-        """Create order-invariant key from two player names."""
-        # Normalize names (lowercase, strip whitespace)
-        p1 = str(player1).strip().lower() if player1 and str(player1) != "nan" else ""
-        p2 = str(player2).strip().lower() if player2 and str(player2) != "nan" else ""
-
-        # Only create key if both players are valid
-        if p1 and p2:
-            return frozenset([p1, p2])
-        return frozenset()
 
     def _find_best_match(self, pbp_row: pd.Series, match_df: pd.DataFrame) -> Optional[Dict]:
         """Find the best match using order-invariant player key filtering."""
@@ -337,17 +336,6 @@ class EmbeddingMatcher(BaseMatcher):
             print(f"⚠️ Embedding API not available: {e}")
             print("   Falling back to fuzzy matching")
             self._use_fallback = True
-
-    def _create_player_key(self, player1: str, player2: str) -> frozenset:
-        """Create order-invariant key from two player names."""
-        # Normalize names (lowercase, strip whitespace)
-        p1 = str(player1).strip().lower() if player1 and str(player1) != "nan" else ""
-        p2 = str(player2).strip().lower() if player2 and str(player2) != "nan" else ""
-
-        # Only create key if both players are valid
-        if p1 and p2:
-            return frozenset([p1, p2])
-        return frozenset()
 
     def _find_best_match(self, pbp_row: pd.Series, match_df: pd.DataFrame) -> Optional[Dict]:
         """Find the best match using order-invariant player key filtering."""
