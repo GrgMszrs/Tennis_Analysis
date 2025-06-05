@@ -128,8 +128,13 @@ class MatchingResultsCache:
 
     def _get_dataset_fingerprint(self, pbp_df: pd.DataFrame, match_df: pd.DataFrame) -> str:
         """Generate a fingerprint for the datasets to detect changes."""
-        pbp_hash = hashlib.md5(str(pbp_df.shape).encode() + str(pbp_df.columns.tolist()).encode()).hexdigest()[:8]
-        match_hash = hashlib.md5(str(match_df.shape).encode() + str(match_df.columns.tolist()).encode()).hexdigest()[:8]
+        # Use SHA-256 for fingerprinting; not security related
+        pbp_hash = hashlib.sha256(
+            str(pbp_df.shape).encode() + str(pbp_df.columns.tolist()).encode()
+        ).hexdigest()[:8]
+        match_hash = hashlib.sha256(
+            str(match_df.shape).encode() + str(match_df.columns.tolist()).encode()
+        ).hexdigest()[:8]
         return f"{pbp_hash}_{match_hash}"
 
     def _get_cache_filename(self, strategy: str, fingerprint: str, threshold: float) -> Path:
