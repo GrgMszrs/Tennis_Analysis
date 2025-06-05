@@ -410,7 +410,7 @@ def fetch_sackmann_players() -> pd.DataFrame:
     url = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_players.csv"
 
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
 
         players_df = pd.read_csv(StringIO(response.text))
@@ -444,7 +444,7 @@ def fetch_sackmann_rankings() -> pd.DataFrame:
 
     for period, url in ranking_urls.items():
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=10)
             response.raise_for_status()
 
             df = pd.read_csv(StringIO(response.text))
