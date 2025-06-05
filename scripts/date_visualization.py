@@ -4,30 +4,27 @@ Date Visualization Script
 Create comprehensive visualizations of match date distribution and temporal patterns.
 """
 
-import sys
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-# Add project root to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
-
-from utils.helpers import setup_logging
+# Configure seaborn style for better aesthetics
+sns.set_theme(style="whitegrid", palette="pastel")
 
 
 def load_standardized_data():
     """Load standardized match data."""
-    logger = setup_logging()
-    logger.info("Loading standardized match data for visualization")
+    logging.info("Loading standardized match data for visualization")
 
     data_file = Path("data/cleaned_refactored/atp_matches_standardized.csv")
     if not data_file.exists():
         raise FileNotFoundError(f"Standardized data not found: {data_file}")
 
     df = pd.read_csv(data_file)
-    logger.info(f"Loaded: {len(df):,} matches")
+    logging.info(f"Loaded: {len(df):,} matches")
 
     return df
 

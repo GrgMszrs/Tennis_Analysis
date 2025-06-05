@@ -3,12 +3,6 @@ Tennis Era Analysis - Era Analysis Components
 UI components for era-based analysis and visualization.
 """
 
-import sys
-from pathlib import Path
-
-# Add project root to path for imports
-sys.path.append(str(Path(__file__).parent.parent.parent))
-
 import pandas as pd
 import streamlit as st
 

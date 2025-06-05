@@ -36,6 +36,14 @@ from .era_analysis import (
     get_era_trends,
     get_surface_comparison,
 )
+from .yearly_trends import (
+    display_evolution_phases,
+    display_performance_trends,
+    display_trend_summary,
+    display_yearly_overview,
+    get_yearly_evolution_data,
+    get_yearly_trends_data,
+)
 
 __all__ = [
     # Age analysis
@@ -66,4 +74,11 @@ __all__ = [
     "get_era_statistics",
     "get_era_trends",
     "get_surface_comparison",
+    # Yearly trends
+    "display_evolution_phases",
+    "display_performance_trends",
+    "display_trend_summary",
+    "display_yearly_overview",
+    "get_yearly_evolution_data",
+    "get_yearly_trends_data",
 ]

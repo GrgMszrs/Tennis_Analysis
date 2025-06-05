@@ -3,12 +3,6 @@ Tennis Era Analysis - Era Analysis Page
 Interactive analysis of tennis performance across different eras.
 """
 
-import sys
-from pathlib import Path
-
-# Add project root to path for imports
-sys.path.append(str(Path(__file__).parent.parent.parent))
-
 import streamlit as st
 
 
