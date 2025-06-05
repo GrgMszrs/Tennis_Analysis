@@ -4,14 +4,9 @@ Tennis Era Analysis - Data Overlap Investigation
 Diagnostic script to understand why PBP and ATP match data have limited overlap.
 """
 
-import sys
-from pathlib import Path
 from typing import Dict
 
 import pandas as pd
-
-# Add project root to path
-sys.path.append(str(Path(__file__).parent.parent))
 
 
 def create_player_key(player1: str, player2: str) -> frozenset:

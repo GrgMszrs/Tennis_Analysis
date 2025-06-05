@@ -4,21 +4,21 @@ Optimize Fuzzy Date Matching
 Tests different date windows to maximize PBP-ATP matching.
 """
 
-import sys
+import logging
 from collections import defaultdict
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# Add project root to path
-sys.path.append(str(Path(__file__).parent.parent))
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
 def test_fuzzy_date_windows(pbp_data: pd.DataFrame, atp_data: pd.DataFrame, max_days: int = 30):
     """Test different fuzzy date windows to find optimal matching rate."""
-    print(f"🔧 TESTING FUZZY DATE WINDOWS (1 to {max_days} days)")
-    print("=" * 70)
+    logging.info("🔧 TESTING FUZZY DATE WINDOWS (1 to %d days)", max_days)
+    logging.info("=" * 70)
 
     # Normalize data
     atp_data["winner_norm"] = atp_data["winner_name"].str.lower().str.strip()
@@ -90,8 +90,13 @@ def test_fuzzy_date_windows(pbp_data: pd.DataFrame, atp_data: pd.DataFrame, max_
             }
         )
 
-        print(
-            f"   {window_days:2d} days: {total_matches:,} matches ({match_rate:.1f}%) - exact: {exact_matches:,}, fuzzy: {fuzzy_matches:,}"
+        logging.info(
+            "   %2d days: %,d matches (%0.1f%%) - exact: %,d, fuzzy: %,d",
+            window_days,
+            total_matches,
+            match_rate,
+            exact_matches,
+            fuzzy_matches,
         )
 
     return results
@@ -99,8 +104,8 @@ def test_fuzzy_date_windows(pbp_data: pd.DataFrame, atp_data: pd.DataFrame, max_
 
 def plot_fuzzy_optimization_results(results):
     """Plot fuzzy date window optimization results."""
-    print("\n📈 CREATING OPTIMIZATION PLOT")
-    print("=" * 50)
+    logging.info("\n📈 CREATING OPTIMIZATION PLOT")
+    logging.info("=" * 50)
 
     df = pd.DataFrame(results)
 
@@ -139,15 +144,15 @@ def plot_fuzzy_optimization_results(results):
     output_path = Path("data/output/plots/fuzzy_date_optimization.png")
     output_path.parent.mkdir(exist_ok=True)
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
-    print(f"   Plot saved to: {output_path}")
+    logging.info("   Plot saved to: %s", output_path)
 
     plt.show()
 
 
 def recommend_optimal_window(results):
     """Recommend optimal fuzzy date window based on diminishing returns."""
-    print("\n💡 OPTIMIZATION RECOMMENDATIONS")
-    print("=" * 50)
+    logging.info("\n💡 OPTIMIZATION RECOMMENDATIONS")
+    logging.info("=" * 50)
 
     df = pd.DataFrame(results)
     df["marginal_gain"] = df["match_rate"].diff().fillna(0)
@@ -157,45 +162,45 @@ def recommend_optimal_window(results):
     max_efficiency_idx = df["efficiency"].idxmax()
     optimal_window = df.iloc[max_efficiency_idx]["window_days"]
 
-    print("📊 Performance Analysis:")
-    print(f"   Current 3-day window:  {df[df['window_days'] == 3]['match_rate'].iloc[0]:.1f}% match rate")
-    print(f"   7-day window:          {df[df['window_days'] == 7]['match_rate'].iloc[0]:.1f}% match rate")
-    print(f"   14-day window:         {df[df['window_days'] == 14]['match_rate'].iloc[0]:.1f}% match rate")
+    logging.info("📊 Performance Analysis:")
+    logging.info("   Current 3-day window:  %0.1f%% match rate", df[df["window_days"] == 3]["match_rate"].iloc[0])
+    logging.info("   7-day window:          %0.1f%% match rate", df[df["window_days"] == 7]["match_rate"].iloc[0])
+    logging.info("   14-day window:         %0.1f%% match rate", df[df["window_days"] == 14]["match_rate"].iloc[0])
 
-    print(f"\n🎯 Recommended optimal window: {optimal_window} days")
-    print(f"   Match rate: {df.iloc[max_efficiency_idx]['match_rate']:.1f}%")
-    print(f"   Total matches: {df.iloc[max_efficiency_idx]['total_matches']:,}")
+    logging.info("\n🎯 Recommended optimal window: %d days", optimal_window)
+    logging.info("   Match rate: %0.1f%%", df.iloc[max_efficiency_idx]["match_rate"])
+    logging.info("   Total matches: %,d", df.iloc[max_efficiency_idx]["total_matches"])
 
     # Calculate potential improvement
     current_3day = df[df["window_days"] == 3]["match_rate"].iloc[0]
     optimal_rate = df.iloc[max_efficiency_idx]["match_rate"]
     improvement = optimal_rate - current_3day
 
-    print("\n📈 Improvement vs current 3-day window:")
-    print(f"   Additional match rate: +{improvement:.1f} percentage points")
-    print(f"   Additional matches: +{improvement / 100 * 11859:.0f} records")
+    logging.info("\n📈 Improvement vs current 3-day window:")
+    logging.info("   Additional match rate: +%0.1f percentage points", improvement)
+    logging.info("   Additional matches: +%0.0f records", improvement / 100 * 11859)
 
     # Show diminishing returns
-    print("\n📉 Diminishing Returns Analysis:")
+    logging.info("\n📉 Diminishing Returns Analysis:")
     for _, row in df.iterrows():
         if row["window_days"] <= 14:
-            print(f"   {int(row['window_days']):2d} days: +{row['marginal_gain']:.1f}% gain (total: {row['match_rate']:.1f}%)")
+            logging.info(f"   {int(row['window_days']):2d} days: +{row['marginal_gain']:.1f}% gain (total: {row['match_rate']:.1f}%)")
 
 
 def main():
     """Main optimization function."""
-    print("🚀 FUZZY DATE MATCHING OPTIMIZATION")
-    print("=" * 70)
+    logging.info("🚀 FUZZY DATE MATCHING OPTIMIZATION")
+    logging.info("=" * 70)
 
     # Load data
-    print("📂 Loading datasets...")
+    logging.info("📂 Loading datasets...")
     try:
         atp_data = pd.read_csv("data/cleaned_refactored/atp_matches_standardized.csv")
         pbp_data = pd.read_csv("data/cleaned_refactored/atp_pbp_standardized.csv")
-        print(f"   ATP Data: {len(atp_data):,} records")
-        print(f"   PBP Data: {len(pbp_data):,} records")
+        logging.info("   ATP Data: %,d records", len(atp_data))
+        logging.info("   PBP Data: %,d records", len(pbp_data))
     except FileNotFoundError as e:
-        print(f"❌ Error loading data: {e}")
+        logging.error("❌ Error loading data: %s", e)
         return
 
     # Test different fuzzy windows
@@ -207,7 +212,7 @@ def main():
     # Recommend optimal window
     recommend_optimal_window(results)
 
-    print("\n✅ Fuzzy date optimization completed!")
+    logging.info("\n✅ Fuzzy date optimization completed!")
 
 
 if __name__ == "__main__":

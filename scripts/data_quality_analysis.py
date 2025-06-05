@@ -4,13 +4,9 @@ Data Quality Analysis Script
 Comprehensive analysis of tennis data standardization and quality metrics.
 """
 
-import sys
 from pathlib import Path
 
 import pandas as pd
-
-# Add project root to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
 
 from utils.helpers import setup_logging
 

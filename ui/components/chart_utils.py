@@ -154,8 +154,8 @@ def create_plotly_heatmap(data, x_col, y_col, z_col, title=None, x_title=None, y
     Returns:
         Plotly figure
     """
-    # Pivot data for heatmap
-    pivot_data = data.pivot(index=y_col, columns=x_col, values=z_col)
+    # Pivot data for heatmap - using pivot_table to handle duplicate combinations
+    pivot_data = data.pivot_table(index=y_col, columns=x_col, values=z_col, aggfunc="mean")
 
     fig = go.Figure(
         data=go.Heatmap(

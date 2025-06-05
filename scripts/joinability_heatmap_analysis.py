@@ -13,9 +13,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# Add project root to path
-sys.path.append(str(Path(__file__).parent.parent))
-
 
 def load_datasets():
     """Load standardized datasets for joinability analysis."""

@@ -8,9 +8,6 @@ import argparse
 import sys
 from pathlib import Path
 
-# Add project modules to path
-sys.path.append(".")
-
 from analysis.era_analysis import generate_era_analysis_report, load_player_match_data
 from data_pipeline.caching import clear_embedding_cache, clear_matching_results_cache, precompute_embeddings_for_datasets
 from data_pipeline.matching import run_matching_experiment

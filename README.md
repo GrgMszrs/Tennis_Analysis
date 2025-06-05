@@ -13,7 +13,7 @@ Tennis Era Analysis is a comprehensive data pipeline and analytical framework fo
 - **Yearly Evolution Trends**: Granular year-by-year analysis with change point detection and phase identification
 - **Interactive UI**: Streamlit-based web interface for visual exploration and analysis
 
-## Interactive Web Interface 🎾
+## Interactive Web Interface
 
 Launch the interactive analysis dashboard:
 
@@ -23,9 +23,9 @@ poetry run streamlit run ui/home.py
 ```
 
 **Available Features:**
-- **📈 Age Curves Analysis** - Interactive peak age analysis and career trajectories
-- **🏟️ Era Analysis** - Comprehensive cross-era performance comparison with dynamic charts
-- **🎨 Tennis-Themed Design** - Custom styling with era/surface badges and color schemes
+- **Age Curves Analysis** - Interactive peak age analysis and career trajectories
+- **Era Analysis** - Comprehensive cross-era performance comparison with dynamic charts
+- **Tennis-Themed Design** - Custom styling with era/surface badges and color schemes
 
 
 ## Quick Start

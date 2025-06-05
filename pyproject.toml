@@ -29,6 +29,14 @@ dependencies = [
     "tenacity (>=9.0.0,<10.0.0)"
 ]
 
+[tool.poetry]
+packages = [
+    { include = "analysis" },
+    { include = "data_pipeline" },
+    { include = "ui" },
+    { include = "utils" },
+    { include = "config" },
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

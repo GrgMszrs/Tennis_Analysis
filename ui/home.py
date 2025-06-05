@@ -3,11 +3,7 @@ Tennis Era Analysis - Home Page
 Main landing page for the Streamlit UI application.
 """
 
-import sys
 from pathlib import Path
-
-# Add project root to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
 
 import streamlit as st
 
