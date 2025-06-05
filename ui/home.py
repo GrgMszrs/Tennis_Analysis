@@ -99,8 +99,9 @@ def main():
         render_era_analysis_page()
         return
     elif selected_page == "Yearly Trends":
-        st.title("📊 Yearly Trends")
-        st.info("🚧 Coming soon - Year-over-year analysis with trend detection and phase identification")
+        from ui.modules.yearly_trends import render_yearly_trends_page
+
+        render_yearly_trends_page()
         return
 
     # Home page content
@@ -237,11 +238,11 @@ def main():
             """
         <div style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; margin: 0.5rem 0;">
             <h5>📊 Yearly Trends</h5>
-            <p><strong>🔜 Coming Soon</strong></p>
+            <p><strong>✅ Ready</strong></p>
             <p>• Year-over-year evolution<br>
             • Trend change detection<br>
             • Game phase analysis<br>
-            • Predictive insights</p>
+            • Interactive temporal charts</p>
         </div>
         """,
             unsafe_allow_html=True,

@@ -54,6 +54,13 @@ The UI will start at `http://localhost:8501
    - Era champions identification
    - Tabbed interface for organized viewing
 
+4. **📊 Yearly Trends** - Complete implementation:
+   - Year-over-year performance evolution
+   - Multi-metric normalized comparisons
+   - Statistical trend analysis with R² values
+   - Change point detection and phase identification
+   - Interactive temporal visualizations
+
 ### Technology Stack
 
 - **Frontend**: Streamlit with custom CSS
@@ -68,15 +75,14 @@ The sidebar provides navigation between:
 - **🏠 Home** - Dataset overview and quick stats
 - **📈 Age Curves** - Player career analysis and peak age evolution
 - **🏟️ Era Analysis** - Comprehensive era comparison and trends
-- **📊 Yearly Trends** - *Coming soon - temporal evolution analysis*
+- **📊 Yearly Trends** - Year-over-year performance evolution and trend analysis
 
 ### Next Development Steps
 
-1. **📊 Yearly Trends Page** - Integrate the yearly evolution analysis
-2. **👤 Individual Player Profiles** - Deep-dive player analysis pages
-3. **🔍 Advanced Filtering** - Enhanced search and filter capabilities
-4. **📁 Export Features** - Download charts and data as PDF/CSV
-5. **📱 Mobile Enhancements** - Improved mobile experience
+1. **👤 Individual Player Profiles** - Deep-dive player analysis pages
+2. **🔍 Advanced Filtering** - Enhanced search and filter capabilities
+3. **📁 Export Features** - Download charts and data as PDF/CSV
+4. **🔮 Predictive Analytics** - Machine learning models for trend forecasting
 
 ### Dependencies
 
