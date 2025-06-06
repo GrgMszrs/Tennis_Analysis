@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tennis Era Analysis - Joinability Heatmap Analysis
+Tennis Analysis - Joinability Heatmap Analysis
 Investigates unmatched PBP records by analyzing joinability patterns.
 """
 

@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Data Transformation
+Tennis Analysis - Data Transformation
 Phase 2: Transform match-level data to player-match format with era-focused derived metrics.
 Enhanced with flexible z-scoring and historical ranking integration.
 """
@@ -162,11 +162,7 @@ def reshape_to_player_match_format(df: pd.DataFrame) -> pd.DataFrame:
             winner_df[player_col] = df[match_col]
 
     # Add derived metrics for winners
-    derived_cols = [
-        col
-        for col in df.columns
-        if col.startswith("w_") and ("rate" in col or "pct" in col or "dominance" in col)
-    ]
+    derived_cols = [col for col in df.columns if col.startswith("w_") and ("rate" in col or "pct" in col or "dominance" in col)]
     for col in derived_cols:
         new_col = col.replace("w_", "")
         winner_df[new_col] = df[col]
@@ -185,11 +181,7 @@ def reshape_to_player_match_format(df: pd.DataFrame) -> pd.DataFrame:
             loser_df[player_col] = df[match_col]
 
     # Add derived metrics for losers
-    derived_cols = [
-        col
-        for col in df.columns
-        if col.startswith("l_") and ("rate" in col or "pct" in col or "dominance" in col)
-    ]
+    derived_cols = [col for col in df.columns if col.startswith("l_") and ("rate" in col or "pct" in col or "dominance" in col)]
     for col in derived_cols:
         new_col = col.replace("l_", "")
         loser_df[new_col] = df[col]

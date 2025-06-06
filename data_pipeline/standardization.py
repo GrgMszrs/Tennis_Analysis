@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tennis Era Analysis - Data Standardization
+Tennis Analysis - Data Standardization
 Phase 1: Convert data types, standardize categorical values, and create universal identifiers.
 """
 
@@ -10,24 +10,25 @@ import numpy as np
 import pandas as pd
 
 from config.constants import CLEANED_DATA_DIR
+from data_pipeline.cleaning import clean_datasets
 from data_pipeline.tournament_normalization import apply_tournament_normalization, normalize_tournament_name
 
 
-def load_raw_datasets() -> Tuple[pd.DataFrame, pd.DataFrame]:
+def load_cleaned_datasets() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Load the cleaned raw datasets for standardization processing.
 
     Returns:
         Tuple of (atp_matches, atp_pbp) DataFrames from cleaned files
     """
-    print("=== LOADING RAW DATASETS FOR STANDARDIZATION ===")
+    print("=== LOADING CLEANED DATASETS FOR STANDARDIZATION ===")
 
     # Load the cleaned files for standardization
     atp_matches = pd.read_csv(CLEANED_DATA_DIR / "atp_matches_cleaned.csv")
     atp_pbp = pd.read_csv(CLEANED_DATA_DIR / "atp_pbp_cleaned.csv")
 
-    print(f"✅ Loaded ATP Matches (raw/cleaned): {len(atp_matches):,} rows")
-    print(f"✅ Loaded ATP PBP (raw/cleaned): {len(atp_pbp):,} rows")
+    print(f"✅ Loaded ATP Matches (cleaned): {len(atp_matches):,} rows")
+    print(f"✅ Loaded ATP PBP (cleaned): {len(atp_pbp):,} rows")
 
     return atp_matches, atp_pbp
 
@@ -341,17 +342,19 @@ def save_standardized_datasets(atp_matches: pd.DataFrame, atp_pbp: pd.DataFrame)
     print("   - atp_pbp_standardized.csv")
 
 
-def standardize_datasets(enable_tournament_normalization: bool = True) -> Dict[str, Any]:
+def standardize_datasets(enable_tournament_normalization: bool = True, force_cleaning: bool = False) -> Dict[str, Any]:
     """
-    Main function to standardize all datasets.
+    Main function to clean and standardize all datasets.
+    This is Phase 1: Data Cleaning + Standardization
 
     Args:
         enable_tournament_normalization: Whether to apply tournament name normalization
+        force_cleaning: Force re-cleaning even if cleaned files exist
 
     Returns:
         Dictionary with standardized datasets and summary statistics
     """
-    print("🎾 TENNIS ERA ANALYSIS - PHASE 1: STANDARDIZATION")
+    print("🎾 TENNIS ANALYSIS - PHASE 1: DATA CLEANING + STANDARDIZATION")
     print("=" * 60)
 
     if enable_tournament_normalization:
@@ -359,8 +362,23 @@ def standardize_datasets(enable_tournament_normalization: bool = True) -> Dict[s
     else:
         print("🏆 Tournament normalization: DISABLED (use --no-tournament-normalization to disable)")
 
-    # Load raw datasets
-    atp_matches, atp_pbp = load_raw_datasets()
+    # Phase 1a: Clean raw datasets first (if not already cleaned)
+    cleaned_files = [CLEANED_DATA_DIR / "atp_matches_cleaned.csv", CLEANED_DATA_DIR / "atp_pbp_cleaned.csv"]
+
+    if not force_cleaning and all(f.exists() for f in cleaned_files):
+        print("\n🧹 Step 1a: Data Cleaning (cached)...")
+        print("   ⚡ Cleaned files already exist, loading cached cleaned data")
+        print("   Use --force to re-run cleaning process")
+        atp_matches, atp_pbp = load_cleaned_datasets()  # Load already cleaned files
+    else:
+        if force_cleaning:
+            print("\n🧹 Step 1a: Data Cleaning (forced)...")
+        else:
+            print("\n🧹 Step 1a: Data Cleaning...")
+        atp_matches, atp_pbp = clean_datasets()  # Clean from truly raw data
+
+    print("\n⚙️ Step 1b: Data Standardization...")
+    # Note: At this point we have cleaned data, either from cache or fresh cleaning
 
     # Standardize ATP matches
     atp_matches = standardize_dates(atp_matches, "tourney_date")
@@ -377,15 +395,23 @@ def standardize_datasets(enable_tournament_normalization: bool = True) -> Dict[s
 
     # Summary
     print("\n=== PHASE 1 SUMMARY ===")
-    print("\n✅ STANDARDIZATION COMPLETE:")
-    print("📅 Dates: ATP matches tourney_date + ATP PBP date converted to datetime")
+    print("\n✅ DATA CLEANING + STANDARDIZATION COMPLETE:")
+    print("🧹 CLEANING APPLIED:")
+    print("   • Duplicate removal: ATP PBP duplicates eliminated")
+    print("   • Invalid durations: Negative/unrealistic match durations filtered")
+    print("   • Date validation: Unparseable dates removed, parsed_date column added")
+    print("   • Match validation: Invalid match formats and statistics filtered")
+    print("   • Player validation: Unrealistic player ages filtered")
+    print("   • Data quality: Point-by-point sequences and flags validated")
+    print("\n⚙️ STANDARDIZATION APPLIED:")
+    print("   • Dates: ATP matches tourney_date + ATP PBP date converted to datetime")
     print(
-        f"🔢 Numerics: {len([col for col in atp_matches.columns if col.startswith(('w_', 'l_')) or 'rank' in col.lower()])} ATP match columns + PBP validation"
+        f"   • Numerics: {len([col for col in atp_matches.columns if col.startswith(('w_', 'l_')) or 'rank' in col.lower()])} ATP match columns + PBP validation"
     )
-    print("🏷️  Categories: ATP match categories + PBP tour/draw standardized")
+    print("   • Categories: ATP match categories + PBP tour/draw standardized")
     if enable_tournament_normalization:
-        print("🏆 Tournaments: ATP + PBP tournament names normalized for better matching")
-    print("🔑 Match ID: Universal match_id created for both datasets")
+        print("   • Tournaments: ATP + PBP tournament names normalized for better matching")
+    print("   • Match ID: Universal match_id created for both datasets")
 
     print("\n📊 FINAL DATASETS:")
     print(f"  ATP Matches: {len(atp_matches):,} rows, {len(atp_matches.columns)} columns")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tennis Era Analysis - Main Pipeline
+Tennis Analysis - Main Pipeline
 Clean entry point for the tennis data processing and analysis pipeline.
 """
 
@@ -28,7 +28,7 @@ def run_standardization(force: bool = False, tournament_normalization: bool = Tr
         True if successful, False otherwise
     """
     try:
-        print("🎾 PHASE 1: DATA STANDARDIZATION")
+        print("PHASE 1: DATA STANDARDIZATION")
         print("=" * 50)
 
         # Check if standardized files already exist
@@ -52,7 +52,7 @@ def run_standardization(force: bool = False, tournament_normalization: bool = Tr
                 print("   Use --force to reprocess with tournament normalization")
             return True
 
-        result = standardize_datasets(enable_tournament_normalization=tournament_normalization)
+        result = standardize_datasets(enable_tournament_normalization=tournament_normalization, force_cleaning=force)
 
         print("\n✅ Phase 1 completed successfully!")
         print(f"   ATP Matches: {result['summary']['atp_matches_count']:,} rows")
@@ -76,7 +76,7 @@ def run_transformation(force: bool = False) -> bool:
         True if successful, False otherwise
     """
     try:
-        print("\n🎾 PHASE 2: DATA TRANSFORMATION")
+        print("\nPHASE 2: DATA TRANSFORMATION")
         print("=" * 50)
 
         # Check if enhanced transformed file already exists (per file naming strategy)
@@ -131,7 +131,7 @@ def run_matching(use_cache: bool = True, precompute: bool = False, tournament_no
         True if successful, False otherwise
     """
     try:
-        print("\n🎾 PHASE 3: PBP MATCHING (OPTIMIZED)")
+        print("\nPHASE 3: PBP MATCHING (OPTIMIZED)")
         print("=" * 50)
 
         # Load standardized data
@@ -175,7 +175,7 @@ def run_analysis() -> bool:
         True if successful, False otherwise
     """
     try:
-        print("\n🎾 PHASE 4: ERA ANALYSIS")
+        print("\nPHASE 4: ERA ANALYSIS")
         print("=" * 50)
 
         # Load player-match data
@@ -214,7 +214,7 @@ def run_full_pipeline(
     Returns:
         True if successful, False otherwise
     """
-    print("🎾 TENNIS ERA ANALYSIS - FULL PIPELINE")
+    print("TENNIS ANALYSIS - FULL PIPELINE")
     print("=" * 60)
 
     # Phase 1: Standardization
@@ -234,7 +234,7 @@ def run_full_pipeline(
     if not run_analysis():
         return False
 
-    print("\n🎉 PIPELINE COMPLETED SUCCESSFULLY!")
+    print("\nPIPELINE COMPLETED SUCCESSFULLY!")
     print("=" * 60)
     print("✅ All phases completed")
     print("📊 Analysis-ready datasets available in data/cleaned_refactored/")
@@ -246,20 +246,21 @@ def run_full_pipeline(
 
 
 def main():
-    """Main entry point for the tennis era analysis pipeline."""
+    """Main entry point for the tennis analysis pipeline."""
 
     # Set up argument parser
     parser = argparse.ArgumentParser(
-        description="Tennis Era Analysis Pipeline",
+        description="Tennis Analysis Pipeline",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   python main.py                    # Run full pipeline with tournament normalization
-  python main.py --phase 1          # Run only standardization
+  python main.py --phase 1          # Run only cleaning + standardization
   python main.py --phase 2          # Run only transformation
   python main.py --phase 3          # Run only matching with caching
   python main.py --phase 4          # Run only analysis
   python main.py --skip-matching    # Skip PBP matching phase
+  python main.py --force            # Force re-cleaning and reprocessing
   python main.py --precompute       # Precompute embeddings for max speed
   python main.py --no-cache         # Disable caching (slower but fresh)
   python main.py --clear-cache all  # Clear all caches
@@ -271,7 +272,7 @@ Examples:
         "--phase",
         type=int,
         choices=[1, 2, 3, 4],
-        help="Run specific phase only (1=standardization, 2=transformation, 3=matching, 4=analysis)",
+        help="Run specific phase only (1=cleaning+standardization, 2=transformation, 3=matching, 4=analysis)",
     )
 
     parser.add_argument("--skip-matching", action="store_true", help="Skip the PBP matching phase")

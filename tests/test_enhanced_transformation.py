@@ -1,5 +1,5 @@
 """
-Test Enhanced Tennis Era Analysis Transformation
+Test Enhanced Tennis Analysis Transformation
 Validates z-score normalization and historical ranking integration
 """
 
@@ -34,7 +34,7 @@ except ImportError as e:
 
 def test_enhanced_features():
     """Test the enhanced features with a small sample of data."""
-    print("🎾 TESTING ENHANCED TENNIS ERA ANALYSIS")
+    print("🎾 TESTING ENHANCED TENNIS ANALYSIS")
     print("=" * 50)
 
     # Test 1: Load and process sample data
@@ -213,7 +213,7 @@ def test_full_pipeline():
 
 def main():
     """Run all enhanced transformation tests."""
-    print("🎾 ENHANCED TENNIS ERA ANALYSIS TESTING SUITE")
+    print("🎾 ENHANCED TENNIS ANALYSIS TESTING SUITE")
     print("=" * 60)
 
     # Test enhanced features with sample

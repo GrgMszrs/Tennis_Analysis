@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Era Analysis Page
+Tennis Analysis - Era Analysis Page
 Interactive analysis of tennis performance across different eras.
 """
 
@@ -11,22 +11,23 @@ def render_era_analysis_page():
 
     try:
         # Page header
-        st.markdown("# 🏟️ Era Analysis")
-        st.markdown("### Comprehensive Analysis of Tennis Evolution Across Eras")
+        st.markdown("# Era Analysis")
+        st.markdown("### Statistical Analysis of Tennis Performance Evolution")
         st.markdown("---")
 
         # Introduction
-        st.markdown("## 🎯 About Era Analysis")
+        st.markdown("## Overview")
         st.markdown("""
-        Explore how professional tennis has evolved across distinct eras. This analysis examines performance metrics, 
-        playing styles, surface preferences, and identifies the champions who defined each era of tennis history.
+        Statistical analysis of professional tennis evolution across distinct temporal and stylistic eras. 
+        Performance metrics, playing styles, and surface preferences are analyzed using standardized 
+        statistical methods to identify significant trends and era-defining characteristics.
         
-        **Tennis Eras Analyzed:**
+        **Era Classification:**
         
-        - **Classic Era** - Traditional baseline play and serve-and-volley dominance
-        - **Transition Era** - Evolution towards power baseline games  
-        - **Modern Era** - Athletic, powerful baseline dominance
-        - **Current Era** - Ultra-athletic, diverse playing styles
+        - **Classic Era** - Traditional serve-and-volley and baseline play patterns
+        - **Transition Era** - Evolution towards power baseline strategies  
+        - **Modern Era** - Athletic baseline dominance with increased court coverage
+        - **Current Era** - Diverse playing styles with ultra-athletic performance standards
         """)
 
         # Import components with error handling
@@ -41,8 +42,8 @@ def render_era_analysis_page():
         if not component_import_success:
             st.stop()
 
-        # Navigation tabs - removed redundant Charts tab
-        tab1, tab2, tab3, tab4 = st.tabs(["🏟️ Overview", "📈 Trends", "🎾 Surface Analysis", "🏆 Champions"])
+        # Navigation tabs
+        tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Trends", "Surface Analysis", "Champions"])
 
         with tab1:
             st.markdown('<div class="fade-in">', unsafe_allow_html=True)
@@ -92,19 +93,20 @@ def render_era_analysis_page():
                 st.code(traceback.format_exc())
             st.markdown("</div>", unsafe_allow_html=True)
 
-        # Insights section
+        # Research findings section
         st.markdown("---")
-        st.markdown("## 💡 Key Research Insights")
+        st.markdown("## Key Findings")
 
         insight_col1, insight_col2, insight_col3 = st.columns(3)
 
         with insight_col1:
             st.markdown(
                 """
-            <div class="tennis-card">
-                <h5>🎾 Game Evolution</h5>
-                <p>Tennis has evolved from serve-and-volley dominance to baseline power games, 
-                with modern players showing increased athleticism and court coverage.</p>
+            <div class="insight-card">
+                <h5>Performance Evolution</h5>
+                <p>Quantitative analysis reveals systematic increases in service dominance and 
+                athletic performance metrics across eras, with statistical significance testing 
+                confirming evolutionary trends.</p>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -113,10 +115,11 @@ def render_era_analysis_page():
         with insight_col2:
             st.markdown(
                 """
-            <div class="tennis-card">
-                <h5>📊 Performance Metrics</h5>
-                <p>Service dominance has increased over eras, while break point conversion 
-                has become more challenging as defensive skills have improved.</p>
+            <div class="insight-card">
+                <h5>Statistical Trends</h5>
+                <p>Service metrics show positive correlation with era progression, while defensive 
+                capabilities demonstrate corresponding improvements, resulting in longer rallies 
+                and strategic complexity.</p>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -125,10 +128,11 @@ def render_era_analysis_page():
         with insight_col3:
             st.markdown(
                 """
-            <div class="tennis-card">
-                <h5>🏟️ Surface Impact</h5>
-                <p>Playing style preferences vary significantly by surface, with hard courts 
-                favoring power players and clay courts rewarding endurance and consistency.</p>
+            <div class="insight-card">
+                <h5>Surface Differentiation</h5>
+                <p>Playing style preferences demonstrate significant surface-specific variations, 
+                with hard courts favoring power metrics and clay courts emphasizing endurance 
+                and consistency statistics.</p>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -138,12 +142,12 @@ def render_era_analysis_page():
         st.markdown("---")
         st.markdown(
             """
-        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #228B22;">
-            <h6>📋 Methodology Notes</h6>
+        <div class="highlight-section">
+            <h6>Methodology</h6>
             <p><strong>Data Source:</strong> ATP Tour official match data (2005-2024)<br>
-            <strong>Era Classification:</strong> Based on historical tennis analysis and playing style evolution<br>
-            <strong>Metrics:</strong> Performance indicators normalized for cross-era comparison<br>
-            <strong>Sample Size:</strong> Minimum sample sizes enforced for statistical significance</p>
+            <strong>Era Classification:</strong> Temporal and stylistic pattern analysis<br>
+            <strong>Statistical Methods:</strong> Z-score normalization for cross-era comparison<br>
+            <strong>Sample Requirements:</strong> Minimum thresholds enforced for statistical significance</p>
         </div>
         """,
             unsafe_allow_html=True,

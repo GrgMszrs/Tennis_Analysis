@@ -1,4 +1,4 @@
 """
-UI Pages for Tennis Era Analysis
+UI Pages for Tennis Analysis
 Individual pages for different analysis views.
 """

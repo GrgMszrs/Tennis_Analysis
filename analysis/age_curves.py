@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Career Age Curve Analysis
+Tennis Analysis - Career Age Curve Analysis
 Mixed-effects models for analyzing career trajectories and peak age evolution across eras.
 """
 

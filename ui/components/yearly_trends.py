@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Yearly Trends Components
+Tennis Analysis - Yearly Trends Components
 UI components for yearly trend analysis and visualization.
 """
 
@@ -46,7 +46,7 @@ def get_yearly_trends_data():
 
 def display_yearly_overview():
     """Display yearly trends overview section."""
-    st.markdown("## 📊 Yearly Trends Overview")
+    st.markdown("## Yearly Trends Overview")
 
     evolution_data = get_yearly_evolution_data()
     if evolution_data is None:
@@ -74,7 +74,7 @@ def display_yearly_overview():
 
 def display_performance_trends():
     """Display year-over-year performance trends."""
-    st.markdown("## 📈 Performance Evolution")
+    st.markdown("## Performance Evolution")
 
     trends_data = get_yearly_trends_data()
     if trends_data is None:
@@ -93,7 +93,7 @@ def display_performance_trends():
     ]
 
     # Create tabs for different views
-    trend_tab1, trend_tab2 = st.tabs(["📊 Individual Metrics", "📈 Multi-Metric Comparison"])
+    trend_tab1, trend_tab2 = st.tabs(["Individual Metrics", "Multi-Metric Comparison"])
 
     with trend_tab1:
         # Select metric to display
@@ -153,12 +153,11 @@ def display_performance_trends():
                 create_plotly_chart(
                     fig,
                     chart_key=f"yearly_trend_{selected_metric}",
-                    caption=f"Interactive yearly evolution of {selected_metric_name.lower()}. Hover for details, zoom to focus on specific periods.",
                 )
 
     with trend_tab2:
         # Multi-metric comparison
-        st.markdown("### 📈 Normalized Multi-Metric Comparison")
+        st.markdown("### Normalized Multi-Metric Comparison")
 
         available_metrics = [(col, name) for col, name in key_metrics if col in yearly_df.columns]
 
@@ -169,7 +168,6 @@ def display_performance_trends():
             create_plotly_chart(
                 fig,
                 chart_key="multi_metric_comparison",
-                caption="Normalized comparison of multiple performance metrics. All metrics are scaled to show relative changes.",
             )
         else:
             st.info("Need at least 2 metrics for comparison view.")
@@ -243,7 +241,7 @@ def create_multi_metric_comparison_chart(yearly_df, available_metrics, trends_an
 
 def display_trend_summary():
     """Display trends summary table."""
-    st.markdown("## 🎯 Trend Summary")
+    st.markdown("## Trend Summary")
 
     trends_data = get_yearly_trends_data()
     if trends_data is None:
@@ -276,7 +274,7 @@ def display_trend_summary():
 
 def display_evolution_phases():
     """Display game evolution phases analysis."""
-    st.markdown("## 🏟️ Game Evolution Phases")
+    st.markdown("## Game Evolution Phases")
 
     trends_data = get_yearly_trends_data()
     if trends_data is None:
@@ -287,10 +285,10 @@ def display_evolution_phases():
 
     # Show major transitions
     if phase_analysis["major_transitions"]:
-        st.markdown("### 🔄 Major Transition Years")
+        st.markdown("### Major Transition Years")
 
         for year, transition in phase_analysis["major_transitions"].items():
-            with st.expander(f"📅 {year} - {len(transition['metrics_affected'])} metrics changed"):
+            with st.expander(f"{year} - {len(transition['metrics_affected'])} metrics changed"):
                 col1, col2 = st.columns(2)
 
                 with col1:
@@ -302,7 +300,7 @@ def display_evolution_phases():
                     st.metric("Impact Score", f"{transition['average_impact']:.3f}")
 
     # Show evolution phases
-    st.markdown("### 📊 Evolution Phases")
+    st.markdown("### Evolution Phases")
 
     phases = phase_analysis["evolution_phases"]
     if phases:

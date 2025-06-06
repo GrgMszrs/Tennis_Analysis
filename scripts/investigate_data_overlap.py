@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tennis Era Analysis - Data Overlap Investigation
+Tennis Analysis - Data Overlap Investigation
 Diagnostic script to understand why PBP and ATP match data have limited overlap.
 """
 

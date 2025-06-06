@@ -46,8 +46,10 @@ ui/
 **Data Caching Strategy:**
 - `@st.cache_data(ttl=3600)` for dataset loading (1-hour TTL)
 - `@st.cache_data(ttl=1800)` for analysis computations (30-minute TTL)
+- `@st.cache_data(ttl=3600)` for temporal statistics calculation
 - Automatic cache invalidation on data changes
 - Memory-efficient DataFrame operations
+- Smart data sampling for large datasets (>200k matches)
 
 **Chart Rendering:**
 - Native Plotly integration with `st.plotly_chart()`
@@ -97,11 +99,25 @@ def create_plotly_heatmap(data, x_col, y_col, z_col, ...):
 - Era-based statistical summaries
 - Interactive exploration with player filtering
 
+**Date Analysis** (`components/date_analysis.py`):
+- Temporal data preprocessing with date validation and normalization
+- Multi-scale time period creation (yearly, monthly, quarterly, weekly)
+- Statistical pattern calculation with error handling and fallback mechanisms
+- Eight specialized chart generation functions for temporal visualization
+- Smart data sampling for performance optimization on large datasets
+- Comprehensive temporal statistics including seasonality and trend analysis
+
 **Era Analysis** (`components/era_analysis.py`):
 - Cross-era performance comparison
 - Trend analysis with statistical significance
 - Surface-specific performance heatmaps
 - Champion identification by era
+
+**Yearly Trends** (`components/yearly_trends.py`):
+- Year-by-year trend analysis
+- Change point detection
+- Game evolution phase identification
+- Multi-metric temporal modeling
 
 ### Page Implementation
 
@@ -111,6 +127,13 @@ def create_plotly_heatmap(data, x_col, y_col, z_col, ...):
 - Dynamic page routing with error handling
 - Live dataset statistics display
 - Custom era/surface badge rendering
+
+**Available Pages:**
+- Home: Dataset overview and navigation hub
+- Age Curves: Career trajectory and peak age analysis
+- Era Analysis: Cross-era performance comparison
+- Yearly Trends: Long-term evolution analysis
+- Date Analysis: Temporal pattern and scheduling analysis
 
 **Key Features:**
 - Real-time data summary with performance metrics
@@ -133,6 +156,33 @@ def create_peak_age_by_era_plot(peaks_df: pd.DataFrame):
     create_plotly_chart(fig, chart_key="peak_age_by_era_boxplot")
 ```
 
+**Date Analysis Chart Functions:**
+```python
+def create_annual_matches_chart(df): 
+    """Annual match counts with trend overlay analysis."""
+    
+def create_monthly_timeline_chart(df):
+    """Monthly distribution timeline with long-term patterns."""
+    
+def create_seasonal_patterns_chart(df):
+    """Seasonal distribution showing peak tournament months."""
+    
+def create_quarterly_heatmap(df):
+    """Quarterly intensity heatmap with seasonal markers."""
+    
+def create_weekly_patterns_chart(df):
+    """Weekly distribution throughout the year."""
+    
+def create_match_intensity_chart(df):
+    """Daily scheduling density analysis."""
+    
+def create_surface_timeline_chart(df):
+    """Surface preference evolution over time."""
+    
+def create_era_timeline_chart(df):
+    """Era distribution with tennis evolution phases."""
+```
+
 #### Era Analysis (`modules/era_analysis.py`)
 **Tabbed Interface Design:**
 - Overview: Era statistics comparison
@@ -145,6 +195,35 @@ def create_peak_age_by_era_plot(peaks_df: pd.DataFrame):
 - Real-time chart updates based on user selection
 - Error handling for missing data combinations
 - Performance optimization for large datasets
+
+#### Yearly Trends (`modules/yearly_trends.py`)
+**Tabbed Interface Design:**
+- Year-over-year trend analysis with statistical significance testing
+- Change point detection for game evolution phases
+- Multi-metric temporal modeling with R² validation
+- Interactive trend exploration with filtering capabilities
+
+#### Date Analysis (`modules/date_analysis.py`)
+**Comprehensive Temporal Pattern Analysis:**
+- Annual match distribution with trend overlay analysis
+- Seasonal pattern identification and statistical validation
+- Weekly and monthly scheduling pattern analysis
+- Match intensity distribution across calendar periods
+- Surface preference evolution over time
+- Era timeline visualization with transition markers
+
+**Implementation Features:**
+- **Four-Tab Interface**: Core Patterns, Advanced Analysis, Surface & Era Trends, Statistical Insights
+- **Real-time Statistics**: Busiest periods, seasonal variation metrics, coverage analysis
+- **Performance Optimization**: Smart data sampling for large datasets (>200k matches)
+- **Error Handling**: Comprehensive fallback mechanisms for chart rendering failures
+- **Data Quality Assessment**: Temporal coverage validation and gap identification
+
+**Statistical Components:**
+- Temporal aggregation across multiple time scales (daily, weekly, monthly, quarterly, yearly)
+- Seasonal decomposition with trend analysis and variation calculation
+- Coverage analysis with expected vs actual data point validation
+- Surface distribution analysis with preference shift detection
 
 ### Styling and Design System
 
@@ -231,16 +310,31 @@ Custom HTML badges for eras and surfaces with gradient backgrounds:
 
 ## Data Pipeline Architecture & File Outputs
 
-### Phase 1: Standardization
-**Input**: Raw ATP match data, point-by-point records
+### Phase 1: Data Cleaning + Standardization
+**Phase 1a: Data Cleaning**
+**Input**: Truly raw ATP data (aggregated CSV files)
+**Process**: Duplicate removal, invalid data filtering, outlier elimination, date parsing
+**Output Files**:
+- `atp_matches_cleaned.csv` - 51,806 matches (421 rows removed, -0.72%)
+- `atp_pbp_cleaned.csv` - 11,859 records (1,191 rows removed, -9.13%)
+
+**Phase 1b: Data Standardization**
+**Input**: Cleaned ATP match data, point-by-point records
 **Process**: Date normalization, numeric type conversion, categorical standardization
 **Output Files**:
-- `atp_matches_standardized.csv` (15MB) - 58,081 matches with standardized schema
+- `atp_matches_standardized.csv` (15MB) - 51,806 matches with standardized schema
 - `atp_pbp_standardized.csv` (3.7MB) - 11,859 PBP records with consistent formatting
+
+**Data Cleaning Integration (v2024.12)**: Integrated reconstructed cleaning process as Phase 1a based on raw vs cleaned data comparison analysis. Removes 421 ATP match rows (-0.72%) and 1,191 PBP rows (-9.13%) through duplicate elimination, invalid data filtering, and outlier removal.
 
 **Critical Fix (v2024.12)**: Resolved circular dependency in data loading that caused 100% date conversion failures. Pipeline now properly loads cleaned data for standardization and standardized data for matching.
 
-**Schema Standardization**:
+**Data Cleaning Process (Phase 1a)**:
+- **ATP Matches**: Removes rows with missing critical stats (w_svpt, l_svpt, winner_rank, loser_rank), invalid match formats, unrealistic durations/ages
+- **PBP Data**: Removes 38 duplicates, filters invalid match durations (<20 min), adds parsed_date column, validates point sequences
+- **Smart Caching**: Uses cached cleaned files when available, force option for re-cleaning
+
+**Schema Standardization (Phase 1b)**:
 - ATP Matches: 51 columns including match metadata, player demographics, match statistics
 - PBP Data: 15 columns with player names, match details, point-by-point sequences
 - Common identifiers: `match_id`, standardized date columns, player names
@@ -598,6 +692,7 @@ Classification based on match date with era-specific performance baselines for n
 ### Environment Requirements
 - Python 3.11+
 - Core: pandas, numpy, scipy, scikit-learn
+- Cleaning: pandas datetime parsing, duplicate detection
 - Embedding: requests (for Ollama API), numpy (for vector operations)
 - Analysis: matplotlib, seaborn
 - Matching: fuzzywuzzy, python-levenshtein
@@ -611,6 +706,7 @@ Classification based on match date with era-specific performance baselines for n
 - Embedding cache size: 10,000 unique names
 
 ### Quality Assurance
+- **Data cleaning validation**: Expected row reductions (ATP: -421 rows, PBP: -1,191 rows)
 - Dataset structure validation (116,162 rows, 77 columns)
 - Z-score distribution validation (mean ≈ 0, std ≈ 1)
 - Ranking coverage validation (>99%)
@@ -618,6 +714,7 @@ Classification based on match date with era-specific performance baselines for n
 - **Date conversion validation**: 100% success rate (fixed in v2024.12)
 
 ### Performance Optimizations
+- **Smart cleaning cache**: Skips cleaning if files exist, --force option for re-cleaning
 - Chunk processing for memory management
 - Embedding caching for repeated name lookups
 - Multiprocessing for independent operations
