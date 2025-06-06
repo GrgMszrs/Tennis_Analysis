@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Caching System
+Tennis Analysis - Caching System
 High-performance caching for embeddings and matching results.
 """
 

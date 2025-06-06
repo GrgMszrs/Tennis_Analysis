@@ -27,6 +27,7 @@ poetry run streamlit run ui/home.py
 - **Age Curves Analysis** - Interactive peak age analysis and career trajectories
 - **Era Analysis** - Comprehensive cross-era performance comparison with dynamic charts
 - **Yearly Trends** - Year-over-year performance evolution and trend analysis
+- **Date Analysis** - Temporal pattern analysis and match distribution visualization
 
 ## Quick Start
 
@@ -100,7 +101,7 @@ This pipeline processes raw ATP data through integrated cleaning and standardiza
 
 ```bash
 git clone <repository-url>
-cd Tennis_Era_Analysis
+cd Tennis_Analysis
 poetry install
 poetry shell
 ```

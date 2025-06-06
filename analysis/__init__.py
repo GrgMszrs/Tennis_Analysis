@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Analysis Module
+Tennis Analysis - Analysis Module
 Comprehensive statistical analysis of tennis performance across eras.
 """
 

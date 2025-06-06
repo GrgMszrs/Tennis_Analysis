@@ -24,7 +24,7 @@ def create_sidebar():
 
     page = st.sidebar.selectbox(
         "Select Analysis:",
-        ["Home", "Age Curves", "Era Analysis", "Yearly Trends"],
+        ["Home", "Age Curves", "Era Analysis", "Yearly Trends", "Date Analysis"],
     )
 
     # Add some spacing and info
@@ -99,6 +99,11 @@ def main():
         from ui.modules.yearly_trends import render_yearly_trends_page
 
         render_yearly_trends_page()
+        return
+    elif selected_page == "Date Analysis":
+        from ui.modules.date_analysis import render_date_analysis_page
+
+        render_date_analysis_page()
         return
 
     # Home page content
@@ -199,7 +204,8 @@ def main():
     # Navigation guide
     st.markdown("## Analysis Modules")
 
-    nav_col1, nav_col2, nav_col3 = st.columns(3)
+    nav_col1, nav_col2 = st.columns(2)
+    nav_col3, nav_col4 = st.columns(2)
 
     with nav_col1:
         st.markdown(
@@ -246,6 +252,23 @@ def main():
                 <li>Change point detection</li>
                 <li>Evolution phase identification</li>
                 <li>Multi-metric temporal modeling</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
+
+    with nav_col4:
+        st.markdown(
+            """
+        <div class="analysis-card">
+            <h5>Date Analysis</h5>
+            <p><strong>Status:</strong> Active</p>
+            <ul>
+                <li>Temporal pattern analysis</li>
+                <li>Seasonal distribution modeling</li>
+                <li>Match scheduling intensity</li>
+                <li>Surface and era timeline trends</li>
             </ul>
         </div>
         """,

@@ -29,7 +29,7 @@ ERA_COLORS = {
 
 # Surface-specific colors
 SURFACE_COLORS = {
-    "Hard": "#2E8B57",  # Sea green
+    "Hard": "#4682B4",  # Steel blue (more blueish)
     "Clay": "#D2691E",  # Saddle brown
     "Grass": "#228B22",  # Forest green
     "Carpet": "#800080",  # Purple

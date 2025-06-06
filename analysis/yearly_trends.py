@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Yearly Trends Analysis
+Tennis Analysis - Yearly Trends Analysis
 Granular year-by-year analysis of tennis evolution and performance trends.
 """
 
