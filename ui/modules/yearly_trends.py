@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Yearly Trends Page
+Tennis Analysis - Yearly Trends Page
 Interactive analysis of year-over-year tennis evolution and performance trends.
 """
 
@@ -11,23 +11,23 @@ def render_yearly_trends_page():
 
     try:
         # Page header
-        st.markdown("# 📊 Yearly Trends Analysis")
-        st.markdown("### Year-over-Year Evolution of Professional Tennis")
+        st.markdown("# Yearly Trends Analysis")
+        st.markdown("### Time-Series Analysis of Professional Tennis Evolution")
         st.markdown("---")
 
         # Introduction
-        st.markdown("## 🎯 About Yearly Trends Analysis")
+        st.markdown("## Overview")
         st.markdown("""
-        Explore the granular evolution of professional tennis through year-by-year analysis. 
-        This section examines performance metrics trends, identifies significant transition points, 
-        and reveals the phases of tennis evolution over the past two decades.
+        Statistical analysis of professional tennis evolution through year-by-year performance metrics. 
+        Time-series analysis methods identify significant transitions, change points, and evolutionary 
+        phases in tennis development over the past two decades.
         
-        **Key Features:**
+        **Analysis Components:**
         
-        - **Year-over-Year Trends** - Statistical analysis of performance metric evolution
-        - **Change Point Detection** - Identification of significant shifts in playing styles
-        - **Evolution Phases** - Distinct periods of tennis development
-        - **Interactive Visualizations** - Zoom, hover, and explore temporal patterns
+        - **Temporal Trends** - Linear regression analysis of performance metric evolution
+        - **Change Point Detection** - Statistical identification of significant transition periods
+        - **Evolution Phases** - Clustering analysis of distinct developmental periods
+        - **Multi-Metric Modeling** - Comparative analysis of multiple performance indicators
         """)
 
         # Import components with error handling
@@ -48,7 +48,7 @@ def render_yearly_trends_page():
             st.stop()
 
         # Navigation tabs
-        tab1, tab2, tab3, tab4 = st.tabs(["📊 Overview", "📈 Performance Trends", "🎯 Trend Summary", "🏟️ Evolution Phases"])
+        tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Performance Trends", "Trend Analysis", "Evolution Phases"])
 
         with tab1:
             st.markdown('<div class="fade-in">', unsafe_allow_html=True)
@@ -100,17 +100,18 @@ def render_yearly_trends_page():
 
         # Research insights section
         st.markdown("---")
-        st.markdown("## 💡 Key Research Insights")
+        st.markdown("## Statistical Insights")
 
         insight_col1, insight_col2, insight_col3 = st.columns(3)
 
         with insight_col1:
             st.markdown(
                 """
-            <div class="tennis-card">
-                <h5>📈 Trend Detection</h5>
-                <p>Advanced statistical methods identify significant changes in playing styles, 
-                revealing when tennis underwent major evolutionary shifts.</p>
+            <div class="insight-card">
+                <h5>Trend Detection</h5>
+                <p>Linear regression with R² significance testing identifies statistically 
+                significant changes in performance metrics, with p-value thresholds ensuring 
+                robust trend identification.</p>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -119,10 +120,11 @@ def render_yearly_trends_page():
         with insight_col2:
             st.markdown(
                 """
-            <div class="tennis-card">
-                <h5>🔄 Change Points</h5>
-                <p>Piecewise regression analysis pinpoints specific years when multiple 
-                performance metrics shifted simultaneously, marking transition periods.</p>
+            <div class="insight-card">
+                <h5>Change Point Analysis</h5>
+                <p>Piecewise regression analysis identifies years with significant metric 
+                transitions, using improvement thresholds and temporal clustering to 
+                validate change points.</p>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -131,51 +133,26 @@ def render_yearly_trends_page():
         with insight_col3:
             st.markdown(
                 """
-            <div class="tennis-card">
-                <h5>⏳ Evolution Phases</h5>
-                <p>Tennis evolution occurs in distinct phases, each characterized by 
-                unique performance patterns and strategic developments.</p>
+            <div class="insight-card">
+                <h5>Phase Identification</h5>
+                <p>Clustering algorithms group change points by temporal proximity and 
+                metric correlation, identifying distinct evolutionary phases in tennis 
+                development patterns.</p>
             </div>
             """,
                 unsafe_allow_html=True,
-            )
-
-        # Development roadmap
-        st.markdown("---")
-        st.markdown("## 🚧 Advanced Features (Coming Soon)")
-
-        roadmap_col1, roadmap_col2 = st.columns(2)
-
-        with roadmap_col1:
-            st.info(
-                """
-                **🔮 Predictive Modeling**
-                - Forecast future tennis trends
-                - Predict next evolution phase
-                - Model performance metric trajectories
-                """
-            )
-
-        with roadmap_col2:
-            st.info(
-                """
-                **🎾 Advanced Analytics**
-                - Surface-specific yearly trends
-                - Player cohort analysis
-                - Tournament-level evolution patterns
-                """
             )
 
         # Footer with methodological notes
         st.markdown("---")
         st.markdown(
             """
-        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #228B22;">
-            <h6>📋 Methodology Notes</h6>
+        <div class="highlight-section">
+            <h6>Statistical Methodology</h6>
             <p><strong>Data Aggregation:</strong> Yearly means with minimum sample size requirements<br>
-            <strong>Trend Analysis:</strong> Linear regression with R² significance testing<br>
-            <strong>Change Detection:</strong> Piecewise regression with improvement thresholds<br>
-            <strong>Phase Identification:</strong> Clustering of change points by temporal proximity</p>
+            <strong>Trend Analysis:</strong> Linear regression with R² significance testing (p < 0.05)<br>
+            <strong>Change Detection:</strong> Piecewise regression with 5% improvement thresholds<br>
+            <strong>Phase Clustering:</strong> Temporal proximity analysis with 3-year windows</p>
         </div>
         """,
             unsafe_allow_html=True,

@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Home Page
+Tennis Analysis - Home Page
 Main landing page for the Streamlit UI application.
 """
 
@@ -20,19 +20,18 @@ def load_custom_css():
 
 def create_sidebar():
     """Create sidebar navigation."""
-    st.sidebar.markdown("## 🎾 Navigation")
+    st.sidebar.markdown("## Navigation")
 
     page = st.sidebar.selectbox(
         "Select Analysis:",
-        ["🏠 Home", "📈 Age Curves", "🏟️ Era Analysis", "📊 Yearly Trends"],
-        format_func=lambda x: x.split(" ", 1)[1],  # Remove emoji for cleaner display
+        ["Home", "Age Curves", "Era Analysis", "Yearly Trends"],
     )
 
     # Add some spacing and info
     st.sidebar.markdown("---")
-    st.sidebar.markdown("### 🚀 Quick Stats")
-    st.sidebar.markdown("**Status:** ✅ Active")
-    st.sidebar.markdown("**Data:** ATP Tour")
+    st.sidebar.markdown("### System Status")
+    st.sidebar.markdown("**Status:** Active")
+    st.sidebar.markdown("**Source:** ATP Tour")
 
     # Get actual data coverage dynamically
     try:
@@ -45,19 +44,18 @@ def create_sidebar():
     except Exception:
         st.sidebar.markdown("**Coverage:** 2005-2024")
 
-    return page.split(" ", 1)[1]  # Return without emoji
+    return page
 
 
 def display_era_badges(eras):
     """Display era badges with custom styling."""
     st.markdown("**Available Eras:**")
-    era_colors = {"Classic": "era-classic", "Transition": "era-transition", "Modern": "era-modern", "Current": "era-current"}
 
     badge_html = ""
     for era in eras:
         if era != "Unknown":
-            color_class = era_colors.get(era, "era-current")
-            badge_html += f'<span class="era-badge {color_class}">{era}</span>'
+            era_class = f"era-{era.lower()}"
+            badge_html += f'<span class="era-badge {era_class}">{era}</span>'
 
     st.markdown(badge_html, unsafe_allow_html=True)
 
@@ -65,12 +63,11 @@ def display_era_badges(eras):
 def display_surface_badges(surfaces):
     """Display surface badges with custom styling."""
     st.markdown("**Available Surfaces:**")
-    surface_colors = {"Hard": "surface-hard", "Clay": "surface-clay", "Grass": "surface-grass", "Carpet": "surface-carpet"}
 
     badge_html = ""
     for surface in surfaces:
-        color_class = surface_colors.get(surface, "surface-hard")
-        badge_html += f'<span class="surface-badge {color_class}">{surface}</span>'
+        surface_class = f"surface-{surface.lower()}"
+        badge_html += f'<span class="surface-badge {surface_class}">{surface}</span>'
 
     st.markdown(badge_html, unsafe_allow_html=True)
 
@@ -79,7 +76,7 @@ def main():
     """Main home page function."""
 
     # Page configuration
-    st.set_page_config(page_title="Tennis Analysis", page_icon="🎾", layout="wide", initial_sidebar_state="expanded")
+    st.set_page_config(page_title="Tennis Analysis", page_icon="📊", layout="wide", initial_sidebar_state="expanded")
 
     # Load custom styling
     load_custom_css()
@@ -105,26 +102,27 @@ def main():
         return
 
     # Home page content
-    st.markdown("# 🎾 Tennis Era Analysis")
-    st.markdown("### Interactive Analysis of Professional Tennis Evolution")
+    st.markdown("# Tennis Era Analysis")
+    st.markdown("### Statistical Analysis of Professional Tennis Evolution")
     st.markdown("---")
 
     # Hero section
     st.markdown(
         """
-    <div style="padding: 1.5rem; border: 2px solid #228B22; border-radius: 10px; background: linear-gradient(135deg, #f0f8f0, #e8f5e8); margin: 1rem 0;">
-        <h4>🏆 Welcome to Tennis Era Analysis</h4>
-        <p>Explore the evolution of professional tennis through comprehensive data analysis spanning over 20 years of ATP Tour history. 
-        Discover how playing styles, performance metrics, and player characteristics have evolved across different tennis eras.</p>
+    <div class="highlight-section">
+        <h4>Tennis Performance Analytics Platform</h4>
+        <p>Comprehensive statistical analysis of ATP Tour data spanning 20+ years. Analyze performance metrics evolution, 
+        career trajectories, and playing style changes across tennis eras using standardized statistical methods and 
+        interactive visualizations.</p>
     </div>
     """,
         unsafe_allow_html=True,
     )
 
     # Load and display data summary
-    st.markdown("## 📊 Dataset Overview")
+    st.markdown("## Dataset Overview")
 
-    with st.spinner("🔄 Loading dataset summary..."):
+    with st.spinner("Loading dataset summary..."):
         summary = get_data_summary()
 
     if summary:
@@ -132,20 +130,20 @@ def main():
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            st.metric("📈 Total Records", f"{summary['total_rows']:,}", help="Total number of player-match records in the dataset")
+            st.metric("Total Records", f"{summary['total_rows']:,}", help="Player-match records in dataset")
 
         with col2:
-            st.metric("👥 Unique Players", f"{summary['unique_players']:,}", help="Number of distinct players in the dataset")
+            st.metric("Unique Players", f"{summary['unique_players']:,}", help="Distinct players analyzed")
 
         with col3:
-            st.metric("🎾 Unique Matches", f"{summary['unique_matches']:,}", help="Number of distinct matches analyzed")
+            st.metric("Unique Matches", f"{summary['unique_matches']:,}", help="Distinct matches analyzed")
 
         with col4:
             years = summary["years"]
-            st.metric("📅 Year Range", f"{years[0]}-{years[1]}", help="Time period covered by the dataset")
+            st.metric("Time Coverage", f"{years[0]}-{years[1]}", help="Temporal range of dataset")
 
         # Additional details in cards
-        st.markdown("## 🏟️ Dataset Details")
+        st.markdown("## Data Classification")
 
         col1, col2 = st.columns(2)
 
@@ -158,16 +156,16 @@ def main():
         # Enhanced features info
         if summary.get("enhanced_features"):
             enhanced = summary["enhanced_features"]
-            st.markdown("## 🚀 Enhanced Analytics")
+            st.markdown("## Feature Engineering")
 
             feat_col1, feat_col2, feat_col3 = st.columns(3)
 
             with feat_col1:
                 st.markdown(
                     f"""
-                <div style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;">
-                    <h5>📊 Normalized Metrics</h5>
-                    <p><strong>{enhanced["z_score_metrics"]}</strong> z-score normalized performance indicators for cross-era comparisons</p>
+                <div class="insight-card">
+                    <h5>Normalized Metrics</h5>
+                    <p><strong>{enhanced["z_score_metrics"]}</strong> z-score normalized performance indicators enable cross-era statistical comparisons</p>
                 </div>
                 """,
                     unsafe_allow_html=True,
@@ -176,9 +174,9 @@ def main():
             with feat_col2:
                 st.markdown(
                     f"""
-                <div style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;">
-                    <h5>🏆 Ranking Features</h5>
-                    <p><strong>{enhanced["ranking_metrics"]}</strong> historical ranking and career progression metrics</p>
+                <div class="insight-card">
+                    <h5>Historical Rankings</h5>
+                    <p><strong>{enhanced["ranking_metrics"]}</strong> ranking progression and career trajectory features</p>
                 </div>
                 """,
                     unsafe_allow_html=True,
@@ -187,32 +185,34 @@ def main():
             with feat_col3:
                 st.markdown(
                     """
-                <div style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa;">
-                    <h5>⚡ Performance</h5>
-                    <p>Optimized data processing with <strong>caching</strong> and <strong>indexing</strong></p>
+                <div class="insight-card">
+                    <h5>Performance Optimization</h5>
+                    <p>Cached data processing with indexing for sub-second query response times</p>
                 </div>
                 """,
                     unsafe_allow_html=True,
                 )
 
     else:
-        st.error("❌ Unable to load dataset. Please check the data pipeline.")
+        st.error("Unable to load dataset. Check data pipeline configuration.")
 
     # Navigation guide
-    st.markdown("## 🧭 Navigation Guide")
+    st.markdown("## Analysis Modules")
 
     nav_col1, nav_col2, nav_col3 = st.columns(3)
 
     with nav_col1:
         st.markdown(
             """
-        <div style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; margin: 0.5rem 0;">
-            <h5>📈 Age Curves</h5>
-            <p><strong>✅ Ready</strong></p>
-            <p>• Interactive career trajectories<br>
-            • Peak age analysis by era<br>
-            • Zoom, pan, hover features<br>
-            • Native chart rendering</p>
+        <div class="analysis-card">
+            <h5>Age Curves Analysis</h5>
+            <p><strong>Status:</strong> Active</p>
+            <ul>
+                <li>Career trajectory modeling</li>
+                <li>Peak age statistical analysis</li>
+                <li>Interactive Plotly visualizations</li>
+                <li>Era-based performance comparison</li>
+            </ul>
         </div>
         """,
             unsafe_allow_html=True,
@@ -221,13 +221,15 @@ def main():
     with nav_col2:
         st.markdown(
             """
-        <div style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; margin: 0.5rem 0;">
-            <h5>🏟️ Era Analysis</h5>
-            <p><strong>✅ Ready</strong></p>
-            <p>• Interactive performance trends<br>
-            • Dynamic surface heatmaps<br>
-            • Era comparison charts<br>
-            • Champion analysis</p>
+        <div class="analysis-card">
+            <h5>Era Analysis</h5>
+            <p><strong>Status:</strong> Active</p>
+            <ul>
+                <li>Performance metric trend analysis</li>
+                <li>Surface-specific performance heatmaps</li>
+                <li>Statistical era comparison</li>
+                <li>Champion identification algorithms</li>
+            </ul>
         </div>
         """,
             unsafe_allow_html=True,
@@ -236,24 +238,54 @@ def main():
     with nav_col3:
         st.markdown(
             """
-        <div style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; margin: 0.5rem 0;">
-            <h5>📊 Yearly Trends</h5>
-            <p><strong>✅ Ready</strong></p>
-            <p>• Year-over-year evolution<br>
-            • Trend change detection<br>
-            • Game phase analysis<br>
-            • Interactive temporal charts</p>
+        <div class="analysis-card">
+            <h5>Yearly Trends</h5>
+            <p><strong>Status:</strong> Active</p>
+            <ul>
+                <li>Time-series trend analysis</li>
+                <li>Change point detection</li>
+                <li>Evolution phase identification</li>
+                <li>Multi-metric temporal modeling</li>
+            </ul>
         </div>
         """,
             unsafe_allow_html=True,
+        )
+
+    # Technical details
+    st.markdown("---")
+    st.markdown("## Technical Specifications")
+
+    tech_col1, tech_col2 = st.columns(2)
+
+    with tech_col1:
+        st.markdown(
+            """
+        **Data Processing Pipeline:**
+        - Raw ATP Tour match data ingestion
+        - Feature engineering and normalization
+        - Era classification based on temporal and stylistic patterns
+        - Statistical validation and quality control
+        """
+        )
+
+    with tech_col2:
+        st.markdown(
+            """
+        **Analysis Framework:**
+        - Plotly for interactive visualizations
+        - Pandas for data manipulation and analysis
+        - Streamlit for web interface
+        - Cached computations for performance optimization
+        """
         )
 
     # Footer
     st.markdown("---")
     st.markdown(
         """
-    <div style="text-align: center; color: #7F8C8D; font-size: 0.9em;">
-        <p>🎾 Tennis Era Analysis | Built with Streamlit & ❤️ for Tennis Analytics</p>
+    <div class="footer">
+        <p>Tennis Analysis | Statistical Computing Platform for Tennis Analytics</p>
     </div>
     """,
         unsafe_allow_html=True,

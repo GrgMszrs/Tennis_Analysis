@@ -1,9 +1,10 @@
-# Tennis Era Analysis
+# Tennis Analysis
 
-Tennis Era Analysis is a comprehensive data pipeline and analytical framework for analyzing tennis player performance across different eras of the game. The project integrates point-by-point data with match-level statistics to provide deep insights into how tennis has evolved over time.
+Tennis Analysis is a comprehensive data pipeline and analytical framework for analyzing tennis player performance across different eras of the game. The project integrates point-by-point data with match-level statistics to provide deep insights into how tennis has evolved over time.
 
 ## Core Features
 
+- **Data Cleaning**: Cleaning process removing duplicates, invalid data, and outliers
 - **Data Standardization**: Clean and standardize ATP match and point-by-point datasets
 - **Tournament Normalization**: Standardize tournament names for improved matching accuracy
 - **Player-Match Transformation**: Convert match-level data to player-centric views
@@ -25,8 +26,7 @@ poetry run streamlit run ui/home.py
 **Available Features:**
 - **Age Curves Analysis** - Interactive peak age analysis and career trajectories
 - **Era Analysis** - Comprehensive cross-era performance comparison with dynamic charts
-- **Tennis-Themed Design** - Custom styling with era/surface badges and color schemes
-
+- **Yearly Trends** - Year-over-year performance evolution and trend analysis
 
 ## Quick Start
 
@@ -39,7 +39,7 @@ python main.py
 python main.py --tournament-normalization
 
 # Run specific phases
-python main.py --phase 1  # Standardization
+python main.py --phase 1  # Cleaning + Standardization
 python main.py --phase 2  # Transformation  
 python main.py --phase 3  # Matching (optimized)
 python main.py --phase 4  # Analysis
@@ -61,39 +61,7 @@ The matching system includes advanced caching for dramatic performance improveme
 
 - **Embedding Cache**: Persistent player name embeddings (10-50x faster)
 - **Result Cache**: Complete matching results cached (100-1000x faster on subsequent runs)
-- **Smart Invalidation**: Automatically detects data changes
 - **Preprocessing**: Batch operations and vectorized calculations
-
-## Project Structure
-
-```
-Tennis_Era_Analysis/
-├── main.py                 # Main pipeline entry point
-├── ui/                     # Interactive web interface
-│   ├── home.py            # Streamlit application entry point
-│   ├── components/        # Reusable UI components and chart utilities
-│   ├── modules/           # Analysis page modules
-│   └── assets/            # CSS styling and themes
-├── data_pipeline/          
-│   ├── caching.py          # High-performance caching system
-│   ├── matching.py         # Optimized matching strategies
-│   ├── standardization.py  # Data cleaning and standardization
-│   └── transformation.py   # Player-match transformations
-├── scripts/                # Analysis tools and demonstrations
-│   ├── date_visualization.py # Match Date Analysis 
-│   ├── investigate_data_overlap.py # Data overlap between APT and PBP data
-│   ├── data_quality_analysis.py      # Data quality assessment
-│   ├── joinability_heatmap_analysis.py # PBP-ATP matching analysis
-│   ├── optimize_fuzzy_matching.py    # Date window optimization
-│   └── tournament_normalization_demo.py # Tournament name standardization
-├── analysis/               # Era analysis modules
-│   ├── era_analysis.py     # Cross-era performance analysis
-│   ├── age_curves.py       # Career trajectory and peak age modeling
-│   └── yearly_trends.py    # Year-by-year evolution with change point detection
-├── config/                 # Configuration and constants
-└── data/                   # Raw and processed datasets
-    └── cache/              # Performance caches
-```
 
 ## Problem Statement
 
@@ -105,7 +73,7 @@ Tennis performance metrics from different eras are not directly comparable due t
 
 ## Solution
 
-This pipeline processes 58,081 ATP matches (2005-2024) and 11,859 point-by-point records to create analysis-ready datasets with era-normalized performance metrics.
+This pipeline processes raw ATP data through integrated cleaning and standardization to produce 51,806 cleaned matches (2005-2024) and 11,859 cleaned point-by-point records with era-normalized performance metrics.
 
 ### Key Components
 - **Era Classification**: Four distinct periods based on game evolution patterns

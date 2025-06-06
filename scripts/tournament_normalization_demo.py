@@ -15,7 +15,7 @@ sys.path.insert(0, str(project_root))
 # Import after path setup
 try:
     from data_pipeline.matching import run_matching_experiment
-    from data_pipeline.standardization import load_raw_datasets, standardize_datasets
+    from data_pipeline.standardization import load_cleaned_datasets, standardize_datasets
     from data_pipeline.tournament_normalization import normalize_tournament_name
 except ImportError as e:
     print(f"Import error: {e}")
@@ -61,7 +61,7 @@ def run_matching_comparison(sample_size: int = 1000):
 
     # Load and prepare data
     print("\n📂 Loading datasets...")
-    atp_matches, atp_pbp = load_raw_datasets()
+    atp_matches, atp_pbp = load_cleaned_datasets()
 
     # Sample data for demo (to keep it fast) - use index-based sampling for raw data
     if len(atp_pbp) > sample_size:
@@ -228,7 +228,7 @@ def demonstrate_tournament_filtering():
     print("=" * 80)
 
     # Load sample data
-    atp_matches, atp_pbp = load_raw_datasets()
+    atp_matches, atp_pbp = load_cleaned_datasets()
 
     # Take a small sample for demonstration
     atp_pbp_sample = atp_pbp.head(100)
@@ -293,7 +293,7 @@ def demonstrate_tournament_filtering():
 
 def main():
     """Run the complete tournament normalization demo."""
-    print("🎾 TENNIS ERA ANALYSIS - TOURNAMENT NORMALIZATION DEMO")
+    print("🎾 TENNIS ANALYSIS - TOURNAMENT NORMALIZATION DEMO")
     print("=" * 80)
     print("Demonstrating the performance benefits of tournament name normalization")
     print("in the tennis data matching pipeline.")

@@ -1,214 +1,325 @@
-/* Tennis Era Analysis - Custom Styling */
+/* Tennis Era Analysis - Professional Styling */
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Import professional fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* Root variables for consistent theming */
+/* Professional color palette */
 :root {
-    --tennis-green: #228B22;
-    --tennis-green-light: #32CD32;
-    --tennis-green-dark: #006400;
-    --court-blue: #0066CC;
-    --court-clay: #D2691E;
-    --background-light: #FAFAFA;
-    --background-dark: #1E1E1E;
-    --text-primary: #2C3E50;
-    --text-secondary: #7F8C8D;
-    --accent-yellow: #F1C40F;
-    --accent-orange: #E74C3C;
-    --card-shadow: rgba(0, 0, 0, 0.1);
-    --border-radius: 12px;
+    --primary-blue: #1e40af;
+    --primary-blue-light: #3b82f6;
+    --primary-blue-dark: #1e3a8a;
+    --accent-teal: #0891b2;
+    --accent-teal-light: #06b6d4;
+    --background-primary: #ffffff;
+    --background-secondary: #f8fafc;
+    --background-tertiary: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --border-light: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --success: #059669;
+    --warning: #d97706;
+    --error: #dc2626;
+    --shadow-sm: rgba(0, 0, 0, 0.05);
+    --shadow-md: rgba(0, 0, 0, 0.1);
+    --shadow-lg: rgba(0, 0, 0, 0.15);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
 }
 
 /* Global styling */
 .main .block-container {
     padding-top: 2rem;
     padding-bottom: 2rem;
-    max-width: 1200px;
+    max-width: 1400px;
 }
 
-/* Custom fonts */
+/* Professional typography */
 html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
 }
 
-/* Header styling */
-h1, h2, h3 {
-    color: var(--tennis-green-dark);
+/* Code and monospace elements */
+code, pre, .stCode {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+/* Header hierarchy */
+h1 {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+}
+
+h2 {
+    color: var(--text-primary);
     font-weight: 600;
+    font-size: 2rem;
+    margin: 2rem 0 1rem 0;
+    letter-spacing: -0.025em;
 }
 
-/* Sidebar styling */
+h3 {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem 0;
+}
+
+h4, h5, h6 {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Sidebar professional styling */
 .css-1d391kg {
-    background: linear-gradient(180deg, var(--tennis-green) 0%, var(--tennis-green-dark) 100%);
+    background: linear-gradient(180deg, var(--primary-blue-dark) 0%, var(--primary-blue) 100%);
+    border-right: 1px solid var(--border-light);
 }
 
 .css-1d391kg .css-17eq0hr {
     color: white;
+    font-weight: 500;
 }
 
-/* Metric cards styling */
+/* Professional metric cards */
 div[data-testid="metric-container"] {
-    background: white;
-    border: 1px solid #E8E8E8;
-    border-radius: var(--border-radius);
-    padding: 1rem;
-    box-shadow: 0 2px 4px var(--card-shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--background-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px var(--shadow-sm);
+    transition: all 0.2s ease;
 }
 
 div[data-testid="metric-container"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--card-shadow);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px var(--shadow-md);
+    border-color: var(--primary-blue-light);
 }
 
-/* Success/info/warning styling */
+/* Clean alert styling */
 .stSuccess {
-    background: linear-gradient(90deg, var(--tennis-green-light), var(--tennis-green));
+    background: linear-gradient(90deg, var(--success), #10b981);
     color: white;
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-md);
     border: none;
+    font-weight: 500;
 }
 
 .stInfo {
-    background: linear-gradient(90deg, var(--court-blue), #004499);
+    background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-light));
     color: white;
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-md);
     border: none;
+    font-weight: 500;
 }
 
-/* Button styling */
+.stWarning {
+    background: linear-gradient(90deg, var(--warning), #f59e0b);
+    color: white;
+    border-radius: var(--radius-md);
+    border: none;
+    font-weight: 500;
+}
+
+/* Professional button styling */
 .stButton > button {
-    background: linear-gradient(90deg, var(--tennis-green), var(--tennis-green-dark));
+    background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-light));
     color: white;
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-md);
     font-weight: 500;
-    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px var(--shadow-sm);
 }
 
 .stButton > button:hover {
-    background: linear-gradient(90deg, var(--tennis-green-dark), var(--tennis-green));
+    background: linear-gradient(90deg, var(--primary-blue-dark), var(--primary-blue));
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(34, 139, 34, 0.3);
+    box-shadow: 0 4px 6px var(--shadow-md);
 }
 
-/* Selectbox styling */
+/* Form controls */
 .stSelectbox > div > div {
-    background: white;
-    border: 2px solid var(--tennis-green-light);
-    border-radius: var(--border-radius);
+    background: var(--background-primary);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s ease;
 }
 
-/* Progress bar */
+.stSelectbox > div > div:focus-within {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Progress indicators */
 .stProgress > div > div {
-    background: linear-gradient(90deg, var(--tennis-green), var(--tennis-green-light));
+    background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
+    border-radius: var(--radius-sm);
 }
 
-/* Dataframe styling */
+/* Professional data tables */
 .dataframe {
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: 0 2px 8px var(--card-shadow);
+    box-shadow: 0 1px 3px var(--shadow-sm);
+    border: 1px solid var(--border-light);
 }
 
-/* Chart container */
+.dataframe th {
+    background: var(--background-tertiary);
+    color: var(--text-primary);
+    font-weight: 600;
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid var(--border-medium);
+}
+
+.dataframe td {
+    padding: 0.875rem 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* Chart containers */
 .chart-container {
-    background: white;
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px var(--card-shadow);
-    margin: 1rem 0;
+    background: var(--background-primary);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 1px 3px var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    margin: 1.5rem 0;
 }
 
-/* Era badge styling */
-.era-badge {
+/* Professional badge system */
+.era-badge, .surface-badge {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
+    padding: 0.375rem 0.875rem;
+    border-radius: 9999px;
     font-size: 0.875rem;
     font-weight: 500;
-    margin: 0.25rem;
+    margin: 0.25rem 0.5rem 0.25rem 0;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
 }
 
+/* Era badges - professional color scheme */
 .era-classic {
-    background: linear-gradient(90deg, #8B4513, #A0522D);
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
     color: white;
 }
 
 .era-transition {
-    background: linear-gradient(90deg, #FF6347, #FF7F50);
+    background: linear-gradient(90deg, #06b6d4, #0891b2);
     color: white;
 }
 
 .era-modern {
-    background: linear-gradient(90deg, #4169E1, #6495ED);
+    background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-light));
     color: white;
 }
 
 .era-current {
-    background: linear-gradient(90deg, var(--tennis-green), var(--tennis-green-light));
+    background: linear-gradient(90deg, var(--success), #10b981);
     color: white;
 }
 
-/* Surface badge styling */
-.surface-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin: 0.25rem;
-}
-
+/* Surface badges */
 .surface-hard {
-    background: linear-gradient(90deg, #2E8B57, #3CB371);
+    background: linear-gradient(90deg, #64748b, #475569);
     color: white;
 }
 
 .surface-clay {
-    background: linear-gradient(90deg, var(--court-clay), #CD853F);
+    background: linear-gradient(90deg, var(--warning), #f59e0b);
     color: white;
 }
 
 .surface-grass {
-    background: linear-gradient(90deg, #228B22, #32CD32);
+    background: linear-gradient(90deg, var(--success), #10b981);
     color: white;
 }
 
 .surface-carpet {
-    background: linear-gradient(90deg, #800080, #9370DB);
+    background: linear-gradient(90deg, #7c3aed, #8b5cf6);
     color: white;
 }
 
-/* Loading spinner */
+/* Loading indicators */
 .stSpinner > div {
-    border-top-color: var(--tennis-green) !important;
+    border-top-color: var(--primary-blue) !important;
 }
 
-/* Custom classes for layout */
-.tennis-card {
-    background: white;
-    border-radius: var(--border-radius);
+/* Professional layout components */
+.analysis-card {
+    background: var(--background-primary);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 1px 3px var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    margin: 1.5rem 0;
+    transition: all 0.2s ease;
+}
+
+.analysis-card:hover {
+    box-shadow: 0 4px 6px var(--shadow-md);
+    border-color: var(--primary-blue-light);
+}
+
+.highlight-section {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
     padding: 1.5rem;
-    box-shadow: 0 2px 8px var(--card-shadow);
-    margin: 1rem 0;
-    border-left: 4px solid var(--tennis-green);
-}
-
-.highlight-box {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border: 1px solid var(--tennis-green-light);
-    border-radius: var(--border-radius);
-    padding: 1rem;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
+    border-left: 4px solid var(--primary-blue);
 }
 
 .stat-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin: 1rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.insight-card {
+    background: var(--background-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.insight-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px var(--shadow-md);
+}
+
+/* Tabs styling */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 0.5rem;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--background-primary);
+    color: var(--primary-blue);
+    border-bottom-color: var(--background-primary);
 }
 
 /* Responsive design */
@@ -221,16 +332,30 @@ div[data-testid="metric-container"]:hover {
     .stat-grid {
         grid-template-columns: 1fr;
     }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
 }
 
-/* Animation utilities */
+/* Smooth animations */
 .fade-in {
-    animation: fadeIn 0.5s ease-in;
+    animation: fadeIn 0.4s ease-in;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0; 
+        transform: translateY(8px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
 
 .slide-in {
@@ -238,6 +363,45 @@ div[data-testid="metric-container"]:hover {
 }
 
 @keyframes slideIn {
-    from { transform: translateX(-10px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from { 
+        transform: translateX(-8px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+/* Professional spacing */
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+    margin: 3rem 0;
+}
+
+/* Code blocks */
+.stCode {
+    background: var(--background-tertiary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+}
+
+/* Expander styling */
+.streamlit-expanderHeader {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+}
+
+/* Professional footer */
+.footer {
+    background: var(--background-tertiary);
+    border-top: 1px solid var(--border-light);
+    padding: 2rem 0;
+    margin-top: 4rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
 } 

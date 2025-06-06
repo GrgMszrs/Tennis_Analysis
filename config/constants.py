@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Configuration Constants
+Tennis Analysis - Configuration Constants
 Centralized configuration for the tennis data processing pipeline.
 """
 
@@ -12,8 +12,6 @@ from pathlib import Path
 # Match-level data constants
 DATA_URL = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_{year}.csv"
 YEARS = range(2005, 2025)  # 2005–2024 inclusive
-RAW_DIR = Path("data/raw")
-DB_PATH = Path("data/tennis.duckdb")
 
 # Point-by-point data constants
 PBP_DATA_URL_TEMPLATE = "https://raw.githubusercontent.com/JeffSackmann/tennis_pointbypoint/master/{filename}"
@@ -21,13 +19,14 @@ PBP_FILENAMES = [
     "pbp_matches_atp_main_archive.csv",
     "pbp_matches_atp_main_current.csv",
 ]
-PBP_RAW_DIR = Path("data/raw_pbp")
 
 # Slam Point-by-point data constants
 SLAM_PBP_DATA_URL_TEMPLATE = "https://raw.githubusercontent.com/JeffSackmann/tennis_slam_pointbypoint/master/{year}-{slam}-points.csv"
-SLAM_PBP_RAW_DIR = Path("data/raw_slam_pbp")
 SLAM_NAMES = ["ausopen", "frenchopen", "wimbledon", "usopen"]
 SLAM_YEARS = range(2011, 2025)
+
+# Raw data paths
+RAW_DATA_DIR = Path("data/raw")
 
 # Processed data paths
 CLEANED_DATA_DIR = Path("data/cleaned_refactored")

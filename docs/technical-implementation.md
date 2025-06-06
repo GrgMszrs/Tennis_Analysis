@@ -103,6 +103,12 @@ def create_plotly_heatmap(data, x_col, y_col, z_col, ...):
 - Surface-specific performance heatmaps
 - Champion identification by era
 
+**Yearly Trends** (`components/yearly_trends.py`):
+- Year-by-year trend analysis
+- Change point detection
+- Game evolution phase identification
+- Multi-metric temporal modeling
+
 ### Page Implementation
 
 #### Home Page (`home.py`)
@@ -145,6 +151,9 @@ def create_peak_age_by_era_plot(peaks_df: pd.DataFrame):
 - Real-time chart updates based on user selection
 - Error handling for missing data combinations
 - Performance optimization for large datasets
+
+#### Yearly Trends (`modules/yearly_trends.py`)
+- TODO: Complete this section
 
 ### Styling and Design System
 
@@ -231,16 +240,31 @@ Custom HTML badges for eras and surfaces with gradient backgrounds:
 
 ## Data Pipeline Architecture & File Outputs
 
-### Phase 1: Standardization
-**Input**: Raw ATP match data, point-by-point records
+### Phase 1: Data Cleaning + Standardization
+**Phase 1a: Data Cleaning**
+**Input**: Truly raw ATP data (aggregated CSV files)
+**Process**: Duplicate removal, invalid data filtering, outlier elimination, date parsing
+**Output Files**:
+- `atp_matches_cleaned.csv` - 51,806 matches (421 rows removed, -0.72%)
+- `atp_pbp_cleaned.csv` - 11,859 records (1,191 rows removed, -9.13%)
+
+**Phase 1b: Data Standardization**
+**Input**: Cleaned ATP match data, point-by-point records
 **Process**: Date normalization, numeric type conversion, categorical standardization
 **Output Files**:
-- `atp_matches_standardized.csv` (15MB) - 58,081 matches with standardized schema
+- `atp_matches_standardized.csv` (15MB) - 51,806 matches with standardized schema
 - `atp_pbp_standardized.csv` (3.7MB) - 11,859 PBP records with consistent formatting
+
+**Data Cleaning Integration (v2024.12)**: Integrated reconstructed cleaning process as Phase 1a based on raw vs cleaned data comparison analysis. Removes 421 ATP match rows (-0.72%) and 1,191 PBP rows (-9.13%) through duplicate elimination, invalid data filtering, and outlier removal.
 
 **Critical Fix (v2024.12)**: Resolved circular dependency in data loading that caused 100% date conversion failures. Pipeline now properly loads cleaned data for standardization and standardized data for matching.
 
-**Schema Standardization**:
+**Data Cleaning Process (Phase 1a)**:
+- **ATP Matches**: Removes rows with missing critical stats (w_svpt, l_svpt, winner_rank, loser_rank), invalid match formats, unrealistic durations/ages
+- **PBP Data**: Removes 38 duplicates, filters invalid match durations (<20 min), adds parsed_date column, validates point sequences
+- **Smart Caching**: Uses cached cleaned files when available, force option for re-cleaning
+
+**Schema Standardization (Phase 1b)**:
 - ATP Matches: 51 columns including match metadata, player demographics, match statistics
 - PBP Data: 15 columns with player names, match details, point-by-point sequences
 - Common identifiers: `match_id`, standardized date columns, player names
@@ -598,6 +622,7 @@ Classification based on match date with era-specific performance baselines for n
 ### Environment Requirements
 - Python 3.11+
 - Core: pandas, numpy, scipy, scikit-learn
+- Cleaning: pandas datetime parsing, duplicate detection
 - Embedding: requests (for Ollama API), numpy (for vector operations)
 - Analysis: matplotlib, seaborn
 - Matching: fuzzywuzzy, python-levenshtein
@@ -611,6 +636,7 @@ Classification based on match date with era-specific performance baselines for n
 - Embedding cache size: 10,000 unique names
 
 ### Quality Assurance
+- **Data cleaning validation**: Expected row reductions (ATP: -421 rows, PBP: -1,191 rows)
 - Dataset structure validation (116,162 rows, 77 columns)
 - Z-score distribution validation (mean ≈ 0, std ≈ 1)
 - Ranking coverage validation (>99%)
@@ -618,6 +644,7 @@ Classification based on match date with era-specific performance baselines for n
 - **Date conversion validation**: 100% success rate (fixed in v2024.12)
 
 ### Performance Optimizations
+- **Smart cleaning cache**: Skips cleaning if files exist, --force option for re-cleaning
 - Chunk processing for memory management
 - Embedding caching for repeated name lookups
 - Multiprocessing for independent operations

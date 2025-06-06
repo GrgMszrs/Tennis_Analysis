@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Era Analysis Components
+Tennis Analysis - Era Analysis Components
 UI components for era-based analysis and visualization.
 """
 
@@ -69,7 +69,7 @@ def get_era_champions(top_n: int = 10):
 
 def display_era_overview():
     """Display era overview section."""
-    st.markdown("## 🏟️ Era Overview")
+    st.markdown("## Era Overview")
 
     era_stats = get_era_statistics()
     if era_stats is None:
@@ -77,7 +77,7 @@ def display_era_overview():
         return
 
     # Display era comparison table
-    st.markdown("### 📊 Era Statistics Comparison")
+    st.markdown("### Era Statistics Comparison")
 
     # Select key metrics to display
     display_cols = [
@@ -105,7 +105,7 @@ def display_era_overview():
         st.dataframe(era_stats, use_container_width=True)
 
     # Key insights
-    st.markdown("### 🔍 Key Insights")
+    st.markdown("### Key Metrics")
 
     col1, col2, col3 = st.columns(3)
 
@@ -124,7 +124,7 @@ def display_era_overview():
 
 def display_era_trends():
     """Display era trends analysis."""
-    st.markdown("## 📈 Era Trends Analysis")
+    st.markdown("## Era Trends Analysis")
 
     trends_data = get_era_trends()
     if trends_data is None:
@@ -135,7 +135,7 @@ def display_era_trends():
     trends = trends_data["trends"]
 
     # Create trend visualization
-    st.markdown("### 📊 Performance Metrics Evolution")
+    st.markdown("### Performance Metrics Evolution")
 
     # Select metrics to visualize
     metrics_to_plot = ["ace_rate", "first_serve_win_pct", "break_point_save_pct", "service_dominance"]
@@ -227,14 +227,14 @@ def display_era_trends():
 
 def display_surface_analysis():
     """Display surface-specific analysis."""
-    st.markdown("## 🏟️ Surface-Specific Analysis")
+    st.markdown("## Surface-Specific Analysis")
 
     surface_data = get_surface_comparison()
     if surface_data is None:
         st.error("Unable to load surface comparison data")
         return
 
-    st.markdown("### 🎾 Performance by Surface and Era")
+    st.markdown("### Performance by Surface and Era")
 
     # Filter out invalid surface values (NAN, None, etc.)
     surface_data = surface_data[surface_data["surface"].notna()]
@@ -280,7 +280,6 @@ def display_surface_analysis():
                 create_plotly_chart(
                     fig,
                     chart_key=f"surface_heatmap_{selected_metric}",
-                    caption="Interactive heatmap showing performance variations. Hover for exact values, darker colors indicate higher performance.",
                 )
             else:
                 st.warning(f"No data available for {selected_metric} after removing missing values")
@@ -290,7 +289,7 @@ def display_surface_analysis():
         st.warning("No metrics with '_mean' suffix found in the surface data")
 
     # Surface statistics table
-    st.markdown("### 📋 Detailed Surface Statistics")
+    st.markdown("### Detailed Surface Statistics")
 
     # Display the surface data table
     if not surface_data.empty:
@@ -299,7 +298,7 @@ def display_surface_analysis():
 
 def display_era_champions():
     """Display era champions analysis."""
-    st.markdown("## 🏆 Era Champions")
+    st.markdown("## Era Champions")
 
     champions_data = get_era_champions()
     if champions_data is None:
@@ -313,7 +312,7 @@ def display_era_champions():
     if selected_era in champions_data:
         champions_df = champions_data[selected_era]
 
-        st.markdown(f"### 🥇 Top Performers - {selected_era} Era")
+        st.markdown(f"### Top Performers - {selected_era} Era")
 
         # Display top performers
         if not champions_df.empty:

@@ -1,5 +1,5 @@
 """
-Tennis Era Analysis - Chart Utilities
+Tennis Analysis - Chart Utilities
 Plotly-based chart utilities for interactive Streamlit visualizations.
 """
 

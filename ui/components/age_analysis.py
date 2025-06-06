@@ -9,8 +9,6 @@ import pandas as pd
 import streamlit as st
 
 from ui.components.chart_utils import create_plotly_box_plot, create_plotly_chart
-
-# Import data loading and chart utilities
 from ui.components.data_loader import get_player_match_data
 
 
@@ -125,7 +123,6 @@ def create_peak_age_by_era_plot(peaks_df: pd.DataFrame):
     create_plotly_chart(
         fig,
         chart_key="peak_age_by_era_boxplot",
-        caption="Interactive box plot showing peak age distribution across tennis eras. Hover for details, zoom and pan to explore.",
     )
 
 
