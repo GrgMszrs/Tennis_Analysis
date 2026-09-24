@@ -48,7 +48,7 @@ def render_yearly_trends_page():
             st.stop()
 
         # Navigation tabs
-        tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Performance Trends", "Trend Analysis", "Evolution Phases"])
+        tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Evolution Trends", "Trend Analysis", "Evolution Phases"])
 
         with tab1:
             st.markdown('<div class="fade-in">', unsafe_allow_html=True)
@@ -68,7 +68,7 @@ def render_yearly_trends_page():
                 with st.container():
                     display_performance_trends()
             except Exception as e:
-                st.error(f"Error in Performance Trends: {e}")
+                st.error(f"Error in Evolution Trends: {e}")
                 import traceback
 
                 st.code(traceback.format_exc())
@@ -100,7 +100,7 @@ def render_yearly_trends_page():
 
         # Research insights section
         st.markdown("---")
-        st.markdown("## Statistical Insights")
+        st.markdown("## Statistical Methodology & Tools")
 
         insight_col1, insight_col2, insight_col3 = st.columns(3)
 
@@ -108,10 +108,11 @@ def render_yearly_trends_page():
             st.markdown(
                 """
             <div class="insight-card">
-                <h5>Trend Detection</h5>
-                <p>Linear regression with R² significance testing identifies statistically 
-                significant changes in performance metrics, with p-value thresholds ensuring 
-                robust trend identification.</p>
+                <h5>Linear Regression Analysis</h5>
+                <p><strong>Method:</strong> Ordinary Least Squares (OLS) regression<br>
+                <strong>Purpose:</strong> Quantifies directional trends in tennis metrics over time<br>
+                <strong>Output:</strong> Slope coefficients, R² correlation strength, and p-values for significance testing<br>
+                <strong>Significance:</strong> p < 0.05 threshold ensures 95% confidence in trend direction</p>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -121,10 +122,11 @@ def render_yearly_trends_page():
             st.markdown(
                 """
             <div class="insight-card">
-                <h5>Change Point Analysis</h5>
-                <p>Piecewise regression analysis identifies years with significant metric 
-                transitions, using improvement thresholds and temporal clustering to 
-                validate change points.</p>
+                <h5>Piecewise Regression</h5>
+                <p><strong>Method:</strong> Segmented linear models with breakpoint optimization<br>
+                <strong>Purpose:</strong> Detects structural breaks where trend direction changes significantly<br>
+                <strong>Algorithm:</strong> Tests all potential breakpoints, compares R² improvement between unified vs. segmented models<br>
+                <strong>Validation:</strong> Requires >10% R² improvement and minimum 3-year segment lengths</p>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -134,10 +136,11 @@ def render_yearly_trends_page():
             st.markdown(
                 """
             <div class="insight-card">
-                <h5>Phase Identification</h5>
-                <p>Clustering algorithms group change points by temporal proximity and 
-                metric correlation, identifying distinct evolutionary phases in tennis 
-                development patterns.</p>
+                <h5>Temporal Clustering</h5>
+                <p><strong>Method:</strong> Proximity-based grouping of change points within 2-year windows<br>
+                <strong>Purpose:</strong> Identifies synchronized transitions across multiple performance metrics<br>
+                <strong>Criteria:</strong> Major transitions require ≥2 metrics changing simultaneously<br>
+                <strong>Evolution Phases:</strong> Temporal periods between major transition clusters</p>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -148,11 +151,14 @@ def render_yearly_trends_page():
         st.markdown(
             """
         <div class="highlight-section">
-            <h6>Statistical Methodology</h6>
-            <p><strong>Data Aggregation:</strong> Yearly means with minimum sample size requirements<br>
-            <strong>Trend Analysis:</strong> Linear regression with R² significance testing (p < 0.05)<br>
-            <strong>Change Detection:</strong> Piecewise regression with 5% improvement thresholds<br>
-            <strong>Phase Clustering:</strong> Temporal proximity analysis with 3-year windows</p>
+            <h6>Technical Implementation Details</h6>
+            <p><strong>Data Aggregation:</strong> Yearly means with n≥10 minimum sample size per metric per year<br>
+            <strong>Normalization:</strong> Z-score standardization: (value - mean) / standard deviation<br>
+            <strong>Trend Significance:</strong> Scipy linear regression with p < 0.05 significance threshold<br>
+            <strong>Change Point Algorithm:</strong> Piecewise OLS with R² improvement ≥10% validation<br>
+            <strong>Breakpoint Detection:</strong> Exhaustive search across all years with min 3-year segments<br>
+            <strong>Phase Clustering:</strong> Temporal grouping within ±2 year windows, requiring ≥2 concurrent metrics<br>
+            <strong>Acceleration Analysis:</strong> Second-order polynomial fitting for trend curvature detection</p>
         </div>
         """,
             unsafe_allow_html=True,

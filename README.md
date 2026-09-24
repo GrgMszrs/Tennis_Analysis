@@ -14,7 +14,7 @@ Tennis Analysis is a comprehensive data pipeline and analytical framework for an
 - **Yearly Evolution Trends**: Granular year-by-year analysis with change point detection and phase identification
 - **Interactive UI**: Streamlit-based web interface for visual exploration and analysis
 
-## Interactive Web Interface
+## Interactive Web Interface (UI)
 
 Launch the interactive analysis dashboard:
 
@@ -23,15 +23,20 @@ Launch the interactive analysis dashboard:
 poetry run streamlit run ui/home.py
 ```
 
+The UI will start at `http://localhost:8501`.
+
 **Available Features:**
 - **Age Curves Analysis** - Interactive peak age analysis and career trajectories
 - **Era Analysis** - Comprehensive cross-era performance comparison with dynamic charts
 - **Yearly Trends** - Year-over-year performance evolution and trend analysis
 - **Date Analysis** - Temporal pattern analysis and match distribution visualization
 
-## Quick Start
+## Running the Pipeline (CLI)
 
 ### Basic Usage
+
+The pipeline is run through the `main.py` script.
+
 ```bash
 # Run complete pipeline with optimized caching
 python main.py

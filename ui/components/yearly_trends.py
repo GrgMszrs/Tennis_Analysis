@@ -73,8 +73,8 @@ def display_yearly_overview():
 
 
 def display_performance_trends():
-    """Display year-over-year performance trends."""
-    st.markdown("## Performance Evolution")
+    """Display year-over-year evolution trends."""
+    st.markdown("## Evolution Trends")
 
     trends_data = get_yearly_trends_data()
     if trends_data is None:
@@ -84,27 +84,36 @@ def display_performance_trends():
     yearly_df = trends_data["yearly_data"]
     trends_analysis = trends_data["trends_analysis"]
 
-    # Key metrics for visualization
-    key_metrics = [
+    # Performance metrics for visualization
+    performance_metrics = [
         ("ace_rate_mean", "Ace Rate"),
         ("first_serve_win_pct_mean", "First Serve Win %"),
         ("return_win_pct_mean", "Return Win %"),
         ("service_dominance_mean", "Service Dominance"),
     ]
 
+    # Contextual/demographic metrics for visualization
+    contextual_metrics = [
+        ("age_mean", "Average Age"),
+        ("df_rate_mean", "Double Fault Rate"),
+        ("first_serve_pct_mean", "First Serve %"),
+        ("second_serve_win_pct_mean", "Second Serve Win %"),
+        ("break_point_save_pct_mean", "Break Point Save %"),
+    ]
+
     # Create tabs for different views
-    trend_tab1, trend_tab2 = st.tabs(["Individual Metrics", "Multi-Metric Comparison"])
+    trend_tab1, trend_tab2, trend_tab3 = st.tabs(["Performance Metrics", "Contextual Metrics", "Multi-Metric Comparison"])
 
     with trend_tab1:
-        # Select metric to display
-        available_metrics = [(col, name) for col, name in key_metrics if col in yearly_df.columns]
+        # Select performance metric to display
+        available_performance = [(col, name) for col, name in performance_metrics if col in yearly_df.columns]
 
-        if available_metrics:
-            metric_names = [name for _, name in available_metrics]
+        if available_performance:
+            metric_names = [name for _, name in available_performance]
             selected_metric_name = st.selectbox("Select Performance Metric:", metric_names)
 
             # Find the corresponding column name
-            selected_metric = next(col for col, name in available_metrics if name == selected_metric_name)
+            selected_metric = next(col for col, name in available_performance if name == selected_metric_name)
 
             # Prepare data for plotting
             valid_data = yearly_df[["year", selected_metric]].dropna()
@@ -142,35 +151,109 @@ def display_performance_trends():
                         opacity=0.8,
                     )
 
-                    # Add change points as vertical lines
-                    change_points = trends_analysis[selected_metric]["change_points"]
-                    for cp in change_points[:2]:  # Show top 2 change points
-                        fig.add_vline(
-                            x=cp["year"], line_dash="dot", line_color="orange", opacity=0.7, annotation_text=f"Change {cp['year']}"
-                        )
-
                 # Display chart
                 create_plotly_chart(
                     fig,
                     chart_key=f"yearly_trend_{selected_metric}",
                 )
+        else:
+            st.info("No performance metrics available for analysis.")
 
     with trend_tab2:
+        # Select contextual metric to display
+        available_contextual = [(col, name) for col, name in contextual_metrics if col in yearly_df.columns]
+
+        if available_contextual:
+            metric_names = [name for _, name in available_contextual]
+            selected_metric_name = st.selectbox("Select Contextual Metric:", metric_names)
+
+            # Find the corresponding column name
+            selected_metric = next(col for col, name in available_contextual if name == selected_metric_name)
+
+            # Prepare data for plotting
+            valid_data = yearly_df[["year", selected_metric]].dropna()
+
+            if len(valid_data) > 0:
+                # Create line plot
+                fig = create_plotly_line_plot(
+                    data=valid_data,
+                    x_col="year",
+                    y_col=selected_metric,
+                    title=f"{selected_metric_name} Evolution Over Time",
+                    x_title="Year",
+                    y_title=selected_metric_name,
+                )
+
+                # Add trend information if available
+                if selected_metric in trends_analysis:
+                    trend_info = trends_analysis[selected_metric]["overall_trend"]
+                    direction = trend_info["direction"]
+                    r2 = trend_info["r_squared"]
+
+                    # Add trend annotation
+                    color = "green" if direction == "increasing" else "red" if direction == "decreasing" else "blue"
+
+                    fig.add_annotation(
+                        x=0.02,
+                        y=0.98,
+                        xref="paper",
+                        yref="paper",
+                        text=f"Trend: {direction.title()} (R²={r2:.3f})",
+                        showarrow=False,
+                        bgcolor=color,
+                        bordercolor=color,
+                        font=dict(color="white"),
+                        opacity=0.8,
+                    )
+
+                # Display chart
+                create_plotly_chart(
+                    fig,
+                    chart_key=f"yearly_contextual_trend_{selected_metric}",
+                )
+        else:
+            st.info("No contextual metrics available for analysis.")
+
+    with trend_tab3:
         # Multi-metric comparison
         st.markdown("### Normalized Multi-Metric Comparison")
 
-        available_metrics = [(col, name) for col, name in key_metrics if col in yearly_df.columns]
+        # Create metric selection interface
+        col1, col2 = st.columns(2)
 
-        if len(available_metrics) >= 2:
+        with col1:
+            st.markdown("**Performance Metrics:**")
+            selected_performance = []
+            for col_name, display_name in performance_metrics:
+                if col_name in yearly_df.columns:
+                    if st.checkbox(
+                        display_name,
+                        value=(display_name in ["Ace Rate", "First Serve Win %", "Return Win %", "Service Dominance"]),
+                        key=f"perf_{col_name}",
+                    ):
+                        selected_performance.append((col_name, display_name))
+
+        with col2:
+            st.markdown("**Contextual Metrics:**")
+            selected_contextual = []
+            for col_name, display_name in contextual_metrics:
+                if col_name in yearly_df.columns:
+                    if st.checkbox(display_name, value=(display_name == "Average Age"), key=f"ctx_{col_name}"):
+                        selected_contextual.append((col_name, display_name))
+
+        # Combine selected metrics
+        selected_metrics = selected_performance + selected_contextual
+
+        if len(selected_metrics) >= 2:
             # Create normalized comparison chart
-            fig = create_multi_metric_comparison_chart(yearly_df, available_metrics, trends_analysis)
+            fig = create_multi_metric_comparison_chart(yearly_df, selected_metrics, trends_analysis)
 
             create_plotly_chart(
                 fig,
                 chart_key="multi_metric_comparison",
             )
         else:
-            st.info("Need at least 2 metrics for comparison view.")
+            st.info("Please select at least 2 metrics for comparison view.")
 
 
 def create_multi_metric_comparison_chart(yearly_df, available_metrics, trends_analysis):
@@ -189,8 +272,28 @@ def create_multi_metric_comparison_chart(yearly_df, available_metrics, trends_an
 
     fig = go.Figure()
 
-    # Color cycle for different metrics
+    # Color cycle for different metrics with custom mapping for swapping
     colors = TENNIS_COLORS
+
+    # Create custom color mapping to swap service dominance and return win % colors
+    color_map = {}
+    for i, (metric_col, metric_name) in enumerate(available_metrics):
+        if metric_name == "Service Dominance":
+            # Give Service Dominance the color that would normally go to Return Win %
+            return_win_index = next((idx for idx, (_, name) in enumerate(available_metrics) if name == "Return Win %"), None)
+            if return_win_index is not None:
+                color_map[metric_name] = colors[return_win_index % len(colors)]
+            else:
+                color_map[metric_name] = colors[i % len(colors)]
+        elif metric_name == "Return Win %":
+            # Give Return Win % the color that would normally go to Service Dominance
+            service_dom_index = next((idx for idx, (_, name) in enumerate(available_metrics) if name == "Service Dominance"), None)
+            if service_dom_index is not None:
+                color_map[metric_name] = colors[service_dom_index % len(colors)]
+            else:
+                color_map[metric_name] = colors[i % len(colors)]
+        else:
+            color_map[metric_name] = colors[i % len(colors)]
 
     for i, (metric_col, metric_name) in enumerate(available_metrics):
         # Get valid data
@@ -201,14 +304,14 @@ def create_multi_metric_comparison_chart(yearly_df, available_metrics, trends_an
             values = valid_data[metric_col]
             normalized_values = (values - values.mean()) / values.std()
 
-            # Add trace
+            # Add trace with custom color mapping
             fig.add_trace(
                 go.Scatter(
                     x=valid_data["year"],
                     y=normalized_values,
                     mode="lines+markers",
                     name=metric_name,
-                    line=dict(width=3, color=colors[i % len(colors)]),
+                    line=dict(width=3, color=color_map[metric_name]),
                     marker=dict(size=8),
                     hovertemplate=f"<b>{metric_name}</b><br>"
                     + "Year: %{x}<br>"
@@ -256,12 +359,17 @@ def display_trend_summary():
         overall_trend = trend_data["overall_trend"]
         recent_trend = trend_data["recent_trend"]
 
+        # Determine if p-value is significant
+        p_value = overall_trend["p_value"]
+        # is_significant = p_value < 0.05
+
         trend_summary.append(
             {
                 "Metric": metric.replace("_mean", "").replace("_", " ").title(),
                 "Overall Trend": overall_trend["direction"].title(),
                 "Trend Strength (R²)": f"{overall_trend['r_squared']:.3f}",
-                "P-value": f"{overall_trend['p_value']:.3f}",
+                "P-value": f"{p_value:.3f}",
+                # "Significant": "✓" if is_significant else "✗",
                 "Recent Trend (R²)": f"{recent_trend['r_squared']:.3f}",
                 "Total Change": f"{trend_data['total_change']:.3f}",
             }
@@ -269,7 +377,28 @@ def display_trend_summary():
 
     if trend_summary:
         trend_df = pd.DataFrame(trend_summary)
-        st.dataframe(trend_df, use_container_width=True)
+
+        # Style the dataframe to highlight significant p-values
+        def highlight_significant_pvalues(row):
+            p_val = float(row["P-value"])
+            if p_val < 0.05:
+                # Create styling list with column names instead of hard-coded indexes
+                styling = []
+                for col in row.index:
+                    if col == "P-value":
+                        styling.append("color: red; font-weight: bold")
+                    else:
+                        styling.append("")
+                return styling
+            else:
+                return [""] * len(row)
+
+        # Display with styling
+        styled_df = trend_df.style.apply(highlight_significant_pvalues, axis=1)
+        st.dataframe(styled_df, use_container_width=True)
+
+        # Add legend for significance
+        st.markdown("**Legend:** Red p-values indicate statistically significant trends (p < 0.05)")
 
 
 def display_evolution_phases():
